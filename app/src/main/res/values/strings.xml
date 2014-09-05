@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">前戏</string>
+
+    <!-- xlist -->
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">松开刷新数据</string>
+    <string name="xlistview_header_hint_loading">正在加载...</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+
+    <string name="search_input_hint">请输入关键词...</string>
+
+    <string name="personal_info_history">最近</string>
+    <string name="personal_info_favorite">收藏</string>
+    <string name="personal_info_comment">评论</string>
+
+    <string name="timeline_download">下载</string>
+</resources>

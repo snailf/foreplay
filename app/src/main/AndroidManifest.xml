@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="cc.dingding.snail.forepaly.app">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+    <uses-sdk android:maxSdkVersion="19" android:minSdkVersion="16" android:targetSdkVersion="19"/>
+
+    <application android:allowBackup="true" android:icon="@drawable/foreplay" android:label="@string/app_name" android:name=".MainApplication"
+        android:theme="@style/AppTheme">
+        <activity android:label="@string/app_name" android:name=".activitys.MainActivity" android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activitys.LoginActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activitys.DetailsActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activitys.TimeLineActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activitys.CaseAppActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activitys.CommentPopActivity" android:screenOrientation="portrait" android:theme="@style/Transparent"/>
+        <!-- ###################添加UmengAppkey###################### -->
+        <meta-data android:name="UMENG_APPKEY" android:value="53b4788856240bcc8a07415f">
+        </meta-data>
+        <meta-data android:name="UMENG_CHANNEL" android:value="online"/>
+
+        <activity android:configChanges="orientation|keyboard" android:launchMode="singleTask" android:name="com.umeng.socialize.view.ShareActivity" android:noHistory="true" android:theme="@style/Theme.UMDialog" android:windowSoftInputMode="stateVisible|adjustResize"/>
+        <activity android:configChanges="keyboardHidden|orientation|screenSize" android:exported="true" android:name=".wxapi.WXEntryActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <activity android:configChanges="orientation|keyboard" android:launchMode="singleTask" android:name="com.tencent.tauth.AuthActivity" android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="1101701292"/>
+            </intent-filter>
+        </activity>
+        <activity android:name="com.tencent.connect.common.AssistActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
+    </application>
+
+</manifest>

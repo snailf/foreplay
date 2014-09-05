@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white" >#ffffffff</color>
+    <color name="balck" >#ff000000</color>
+    <color name="transparent" >#00ffffff</color>
+    <color name="light_white" >#d9ffffff</color>
+    <color name="light_whites" >#eeffffff</color>
+    <color name="gray">#ffcccccc</color>
+    <color name="gray_color">#FFD5D5D5</color>
+    
+    <!-- drawer -->
+    <color name="drawer_line_gray" >#ffc0b5c3</color>
+    <color name="drawer_text_gray" >#f9333333</color>
+
+    <!-- footer -->
+    <color name="footer_text_focus_color" >#ffdd455b</color>
+    <color name="footer_text_color" >#ff808080</color>
+
+    <!-- index -->
+    <color name="index_content_bg" >#fff3f7f8</color>
+    <color name="index_pop_text_color">#ff808080</color>
+    <color name="dialog_color">#ff2f3535</color>
+
+    <!-- login -->
+    <color name="login_text_color">#ff614633</color>
+    <color name="login_bg">#fffbfbfb</color>
+
+    <!-- black_light -->
+    <color name="single_light_black">#dd000000</color>
+
+    <!-- app_list -->
+    <color name="app_list_item_action_bg">#ffe6e6e6</color>
+    <color name="app_list_bg">#fff3f7f8</color>
+    <color name="app_list_item_right_foot_bg">#ffe6e6e6</color>
+
+    <!-- search -->
+    <color name="search_input_bg_color">#ffe6e6e6</color>
+
+    <!-- personal -->
+    <color name="personal_tab_text_selected">#ffdd455b</color>
+    <color name="personal_tab_text">#ff808080</color>
+    <color name="personal_tab_bgcolor">#ffffffff</color>
+    <color name="personal_tab_bgcolor_selected">#fff3f7f8</color>
+
+    <!-- timeline -->
+    <color name="timeline_green" >#ff4bd865</color>
+
+    <!-- pop comment -->
+    <color name="comment_btn_text_white">#ffffffff</color>
+    <color name="comment_btn_text_gray">#ff2f3535</color>
+    <color name="comment_btn_green" >#ee4bd865</color>
+    <color name="comment_btn_green_selected" >#ee43b558</color>
+    <color name="comment_btn_gray" >#eec0b5c3</color>
+    <color name="comment_btn_gray_selected" >#ee808080</color>
+
+
+    <!-- details  && comments -->
+
+    <color name="details_comments_title_banner_bg">#ffe6e6e6</color>
+</resources>

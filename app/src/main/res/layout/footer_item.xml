@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="120dip"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:background="@color/transparent" >
+
+    <RelativeLayout
+        android:id="@+id/footer_item_parent_rl"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginRight="20dip"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@color/transparent" >
+
+        <RadioButton
+            android:id="@+id/tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dip"
+            android:button="@null"
+            android:background="@null"
+            android:checked="false"
+            android:drawableTop="@drawable/foot_index_xml"
+            android:gravity="center"
+            android:text="个人中心"
+            android:textColor="@color/footer_tab_color"
+            android:textSize="11dip" >
+        </RadioButton>
+
+        <ImageView
+            android:id="@+id/footer_message_isnew"
+            android:layout_width="7dip"
+            android:layout_height="7dip"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="@dimen/personal_item_tip_width"
+            android:layout_marginRight="20dip"
+            android:layout_marginTop="10dip"
+            android:src="@drawable/img_new_message"
+            android:visibility="invisible"
+             />
+    </RelativeLayout>
+
+</RelativeLayout>

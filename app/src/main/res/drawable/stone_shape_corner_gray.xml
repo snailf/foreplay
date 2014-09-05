@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>   
+ <!-- 底部圆角 白色背景 白色边框 长方体 -->   
+ <layer-list xmlns:android="http://schemas.android.com/apk/res/android">   
+     <item>   
+         <shape>   
+             <solid android:color="@color/search_input_bg_color" />
+             <corners android:topLeftRadius="@dimen/search_input_corner_size" android:topRightRadius="@dimen/search_input_corner_size"
+                 android:bottomRightRadius="@dimen/search_input_corner_size" android:bottomLeftRadius="@dimen/search_input_corner_size" />
+             <stroke android:width="1px" android:color="@color/search_input_bg_color" />
+         </shape>
+     </item>
+ </layer-list>

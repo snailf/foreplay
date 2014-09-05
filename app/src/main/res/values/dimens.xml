@@ -1,0 +1,125 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
+         https://developer.android.com/design/patterns/navigation-drawer.html -->
+    <dimen name="navigation_drawer_width">140dip</dimen>
+
+    <!-- header -->
+    <dimen name="header_title_font_size" >14dip</dimen>
+    <dimen name="header_height" >54dip</dimen>
+    <dimen name="header_btn_width" >70dip</dimen>
+    <dimen name="header_ibtn_width" >25dip</dimen>
+    <dimen name="header_ibtn_height" >25dip</dimen>
+    <!-- drawer -->
+    <dimen name="drawer_icon_width" >20dip</dimen>
+    <dimen name="drawer_icon_height" >20dip</dimen>
+
+    <dimen name="drawer_marin_left" >20dip</dimen>
+
+    <dimen name="drawer_item_height" >50dip</dimen>
+
+    <!-- index footer -->
+    <dimen name="footer_height" >55dip</dimen>
+    <!-- index -->
+    <dimen name="index_item_top_height" >60dip</dimen>
+    <dimen name="index_item_logo_width" >34dip</dimen>
+    <dimen name="index_item_logo_height" >34dip</dimen>
+    <dimen name="index_item_gap" >8dip</dimen>
+    <dimen name="index_item_name_font" >14dip</dimen>
+    <dimen name="index_item_name_width" >65dip</dimen>
+    <dimen name="index_item_btn_rl_width" >40dip</dimen>
+    <dimen name="index_item_btn_width" >23dip</dimen>
+    <dimen name="index_item_btn_height" >23dip</dimen>
+
+    <dimen name="index_item_rl_gap" >4dip</dimen>
+    <dimen name="index_item_be_gap" >2dip</dimen>
+    <!-- index footer -->
+    <dimen name="personal_item_tip_width">80dip</dimen>
+    <!-- index header -->
+    <dimen name="index_header_btns_width">160dip</dimen>
+    <dimen name="index_header_btns_height">38dip</dimen>
+
+    <dimen name="search_header_input_height">38dip</dimen>
+
+    <!-- search -->
+    <dimen name="search_input_margin_left">10dip</dimen>
+    <dimen name="search_input_corner_size">8dip</dimen>
+
+    <dimen name="search_button_width" >26dip</dimen>
+    <dimen name="search_button_height" >26dip</dimen>
+
+    <dimen name="search_button_rl_width" >40dip</dimen>
+    <dimen name="search_button_rl_height" >40dip</dimen>
+
+    <!-- dialog -->
+    <dimen name="alert_bt_height" >34dip</dimen>
+    <dimen name="alert_bt_width" >60dip</dimen>
+    <dimen name="alert_bt_font" >14dip</dimen>
+    <dimen name="alert_message_font" >15dip</dimen>
+    <dimen name="alert_message_width" >200dip</dimen>
+    <dimen name="alert_height" >200dip</dimen>
+    <dimen name="alert_width" >300dip</dimen>
+
+    <!-- login -->
+    <dimen name="login_button_gap_left" >15dip</dimen>
+    <dimen name="login_button_gap_top" >25dip</dimen>
+    <dimen name="login_button_height" >45dip</dimen>
+    <dimen name="login_button_font_size" >18dip</dimen>
+    <dimen name="login_text_size" >25dip</dimen>
+    <!-- detail -->
+    <dimen name="detail_footer_height" >60dip</dimen>
+    <dimen name="detail_footer_bt_width" >40dip</dimen>
+    <dimen name="detail_footer_download_width" >26dip</dimen>
+    <dimen name="detail_footer_download_height" >26dip</dimen>
+    <dimen name="detail_footer_margin_right" >20dip</dimen>
+
+    <!-- gallery -->
+    <dimen name="gallery_default_size">100dip</dimen>
+    <dimen name="gallery_gap">8dip</dimen>
+    <dimen name="gallery_app_gap">100dip</dimen>
+    <!-- case_app list -->
+    <dimen name="case_app_list_left_width">50dip</dimen>
+    <dimen name="case_app_list_left_item_width">10dip</dimen>
+    <dimen name="case_app_list_right_item_foot_height">50dip</dimen>
+
+    <!-- timeline -->
+    <dimen name="timeline_footer_image_size">26dip</dimen>
+    <dimen name="timeline_header_right_btn_height">26dip</dimen>
+    <dimen name="timeline_header_right_btn_width">50dip</dimen>
+    <!-- personal -->
+    <dimen name="personal_info_height">80dip</dimen>
+    <dimen name="personal_info_avatar_size">55dip</dimen>
+    <dimen name="personal_info_nick_size">20dip</dimen>
+    <dimen name="personal_info_magin">20dip</dimen>
+    <dimen name="personal_item_text_gap">3dip</dimen>
+    <dimen name="personal_tab_text_size">14dip</dimen>
+    <dimen name="personal_case_app_list_left_width">60dip</dimen>
+
+    <!-- comment -->
+    <dimen name="comment_pop_margin_left">15dip</dimen>
+    <dimen name="comment_pop_heigth">350dip</dimen>
+    <dimen name="comment_pop_image_size">170dip</dimen>
+    <dimen name="comment_pop_image_margin_top">15dip</dimen>
+    <dimen name="comment_pop_text_height">48dip</dimen>
+    <dimen name="comment_pop_text_margin_left">10dip</dimen>
+
+    <!-- app details with comments -->
+    <dimen name="details_iamge_height">385dip</dimen>
+    <dimen name="details_comments_title_banner_height">28dip</dimen>
+    <dimen name="details_comments_user_title_height">60dip</dimen>
+    <dimen name="details_comments_margin_top">10dip</dimen>
+    <dimen name="details_comments_avatar_size">40dip</dimen>
+    <dimen name="details_comments_margin_left">10dip</dimen>
+
+    <dimen name="details_comments_font_size">16dip</dimen>
+
+    <dimen name="details_comments_icon_size">22dip</dimen>
+    <dimen name="details_comments_bottom_height">55dip</dimen>
+
+
+    <!-- login -->
+    <dimen name="login_logo_size">100dip</dimen>
+</resources>

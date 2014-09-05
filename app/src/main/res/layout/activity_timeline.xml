@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:id="@+id/parent"
+    >
+    <include
+        android:id="@+id/header"
+        layout="@layout/header_timeline"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/header_height"
+        />
+    <cc.dingding.snail.forepaly.app.views.StretchScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/app_list_bg"
+        android:layout_below="@id/header"
+        >
+        <RelativeLayout
+            android:id="@+id/footer_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            >
+            <cc.dingding.snail.forepaly.app.views.CusListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/listview"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0dp"
+                android:cacheColorHint="@color/transparent"
+                android:listSelector="@color/transparent"
+                >
+
+            </cc.dingding.snail.forepaly.app.views.CusListView>
+        </RelativeLayout>
+    </cc.dingding.snail.forepaly.app.views.StretchScrollView>
+
+</RelativeLayout>

@@ -1,0 +1,16 @@
+.gradle
+/local.properties
+/.idea/workspace.xml
+.DS_Store
+.idea/
+app/app.iml
+app/build.gradle
+app/build
+build.gradle
+build/
+foreplays.iml
+gradle.properties
+gradle/
+gradlew
+gradlew.bat
+settings.gradle

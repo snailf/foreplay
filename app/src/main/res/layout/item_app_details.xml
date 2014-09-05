@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/personal_info_height"
+        android:background="@color/transparent"
+        android:id="@+id/info_rl"
+        >
+        <ImageView
+            android:layout_width="@dimen/personal_info_avatar_size"
+            android:layout_height="@dimen/personal_info_avatar_size"
+            android:id="@+id/logo"
+            android:background="@drawable/foreplay"
+            android:layout_marginLeft="@dimen/personal_info_magin"
+            android:layout_centerVertical="true"
+            />
+        <TextView
+            android:layout_width="200dip"
+            android:layout_height="match_parent"
+            android:id="@+id/name"
+            android:textColor="@color/balck"
+            android:textSize="@dimen/personal_info_nick_size"
+            android:layout_toRightOf="@id/logo"
+            android:layout_marginLeft="@dimen/personal_info_magin"
+            android:text="标题"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            />
+        <RelativeLayout
+            android:id="@+id/isfavate_rl"
+            android:layout_width="@dimen/index_item_btn_rl_width"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/personal_info_magin"
+            >
+            <cc.dingding.snail.forepaly.app.views.FavoriteView
+                android:id="@+id/isfavate"
+                android:layout_width="@dimen/index_item_btn_width"
+                android:layout_height="@dimen/index_item_btn_height"
+                android:layout_centerInParent="true"
+                android:background="@drawable/favorite"
+                />
+        </RelativeLayout>
+
+    </RelativeLayout>
+    <cc.dingding.snail.forepaly.app.views.MyGallery
+        android:id="@+id/gallery"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/details_iamge_height"
+        android:background="@color/transparent"
+        android:layout_below="@id/info_rl"
+        />
+
+</RelativeLayout>

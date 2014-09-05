@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cc.dingding.snail.forepaly.app.views.xlist.XListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/xListView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:listSelector="@color/transparent"
+    android:background="@color/transparent"
+    android:cacheColorHint="@color/transparent"
+    android:divider="@null"
+    android:dividerHeight="0dp"
+    android:orientation="vertical" >
+
+</cc.dingding.snail.forepaly.app.views.xlist.XListView>

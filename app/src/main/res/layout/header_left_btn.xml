@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="48dp">
+
+</RelativeLayout>
+
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="48dp"-->
+    <!--android:background="@drawable/img_head_title" >-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/returnBtn"-->
+        <!--android:layout_width="@dimen/return_btn_width"-->
+        <!--android:layout_height="@dimen/return_btn_height"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:background="@drawable/selector_head_back"-->
+        <!--android:contentDescription="@string/app_name"-->
+        <!--android:focusable="false"-->
+        <!--android:focusableInTouchMode="false" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/headerTitle"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:layout_marginLeft="@dimen/common_head_title_left"-->
+        <!--android:layout_toRightOf="@id/returnBtn"-->
+        <!--android:ellipsize="end"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:singleLine="true"-->
+        <!--android:text="@string/titles"-->
+        <!--android:textColor="@color/index_title"-->
+        <!--android:textSize="@dimen/header_font" />-->
+
+<!--</RelativeLayout>-->
