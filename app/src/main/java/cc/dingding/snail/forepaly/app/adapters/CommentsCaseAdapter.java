@@ -15,7 +15,7 @@ import android.widget.Toast;
 import java.util.LinkedList;
 
 import cc.dingding.snail.forepaly.app.R;
-import cc.dingding.snail.forepaly.app.activitys.DetailsActivity;
+import cc.dingding.snail.forepaly.app.activitys.CaseAppActivity;
 import cc.dingding.snail.forepaly.app.cache.SharedCache;
 import cc.dingding.snail.forepaly.app.helper.bitmap.AsyncBitmapLoader;
 import cc.dingding.snail.forepaly.app.helper.bitmap.model.ImageModel;
@@ -105,7 +105,7 @@ public class CommentsCaseAdapter extends UserCaseAdapter{
                 @Override
                 public void onClick(View v) {
                     SharedCache.gCurrentCase = finalCaseModel1;
-                    mContext.startActivity(new Intent(mContext, DetailsActivity.class));
+                    mContext.startActivity(new Intent(mContext, CaseAppActivity.class));
                 }
             });
 
@@ -141,7 +141,7 @@ public class CommentsCaseAdapter extends UserCaseAdapter{
                 @Override
                 public void onClick(View v) {
                     SharedCache.gCurrentCase = finalCaseModel2;
-                    mContext.startActivity(new Intent(mContext, DetailsActivity.class));
+                    mContext.startActivity(new Intent(mContext, CaseAppActivity.class));
                 }
             });
         }else{

@@ -5,12 +5,16 @@
     android:layout_height="wrap_content"
     android:minHeight="200dip"
     android:orientation="horizontal"
+    android:clickable="false"
+    android:focusableInTouchMode="false"
     >
     <RelativeLayout
         android:id="@+id/left_rl"
         android:layout_width="200dip"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:clickable="false"
+        android:focusableInTouchMode="false"
         >
         <RelativeLayout
             android:layout_width="match_parent"
@@ -19,17 +23,24 @@
             android:layout_marginRight="@dimen/index_item_be_gap"
             android:layout_marginLeft="@dimen/index_item_rl_gap"
             android:layout_marginTop="@dimen/index_item_rl_gap"
+            android:clickable="false"
+            android:focusableInTouchMode="false"
             >
             <RelativeLayout
                 android:id="@+id/top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/gray"
+                android:clickable="false"
+                android:focusableInTouchMode="false"
                 >
                 <RelativeLayout
                     android:id="@+id/fimage_rl"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusableInTouchMode="false"
+                    >
                     <ImageView
                         android:id="@+id/fimage"
                         android:layout_width="match_parent"
@@ -44,29 +55,43 @@
                 android:layout_below="@id/top"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/index_item_top_height"
-                android:background="@color/white"
+                android:clickable="false"
+                android:focusableInTouchMode="false"
                 >
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/index_item_top_height"
                     android:id="@+id/bottom"
+                    android:clickable="false"
+                    android:focusableInTouchMode="false"
                     >
-                    <TextView
-                        android:id="@+id/title"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/balck"
-                        android:text="是就离开离开多久啊发了空间啊老大放假啊说的了"
-                        android:textSize="@dimen/index_item_name_font"
-                        android:gravity="left|center"
-                        android:ellipsize="end"
-                        android:maxLines="3"
-                        android:layout_marginLeft="@dimen/index_item_gap"
-                        android:layout_marginRight="@dimen/index_item_gap"
-                        android:layout_marginTop="@dimen/personal_item_text_gap"
-                        android:layout_marginBottom="@dimen/personal_item_text_gap"
-                        />
+                        android:layout_height="@dimen/index_item_top_height"
+                        android:background="@color/white"
+                        android:clickable="false"
+                        android:focusableInTouchMode="false"
+                        >
+                        <TextView
+                            android:id="@+id/title"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/balck"
+                            android:text="是就离开离开多久啊发了空间啊老大放假啊说的了"
+                            android:textSize="@dimen/index_item_name_font"
+                            android:gravity="left|center"
+                            android:ellipsize="end"
+                            android:maxLines="3"
+                            android:layout_marginLeft="@dimen/index_item_gap"
+                            android:layout_marginRight="@dimen/index_item_gap"
+                            android:layout_marginTop="@dimen/personal_item_text_gap"
+                            android:layout_marginBottom="@dimen/personal_item_text_gap"
+                            android:clickable="false"
+                            android:focusableInTouchMode="false"
+                            />
                     </RelativeLayout>
+                </RelativeLayout>
+
             </RelativeLayout>
 
         </RelativeLayout>
@@ -78,6 +103,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@color/transparent"
+        android:clickable="false"
+        android:focusableInTouchMode="false"
         >
         <RelativeLayout
             android:layout_width="match_parent"
@@ -86,22 +113,29 @@
             android:layout_marginRight="@dimen/index_item_rl_gap"
             android:layout_marginLeft="@dimen/index_item_be_gap"
             android:layout_marginTop="@dimen/index_item_rl_gap"
+            android:clickable="false"
+            android:focusableInTouchMode="false"
             >
             <RelativeLayout
                 android:id="@+id/rtop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/gray"
+                android:clickable="false"
+                android:focusableInTouchMode="false"
 
                 >
                 <RelativeLayout
                     android:id="@+id/rfimage_rl"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusableInTouchMode="false"
+                    >
                     <ImageView
                         android:id="@+id/rfimage"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:minHeight="50dip"
                         android:background="@drawable/test"
                         android:scaleType="fitCenter"
@@ -112,30 +146,44 @@
             <RelativeLayout
                 android:layout_below="@id/rtop"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:layout_height="@dimen/index_item_top_height"
+                android:clickable="false"
+                android:focusableInTouchMode="false"
                 >
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/index_item_top_height"
                     android:id="@+id/rbottom"
+                    android:clickable="false"
+                    android:focusableInTouchMode="false"
                     >
-                    <TextView
-                        android:id="@+id/rtitle"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/balck"
-                        android:text="是就离开离开多久啊发了空间啊老大放假啊说的了"
-                        android:textSize="@dimen/index_item_name_font"
-                        android:gravity="left|center"
-                        android:ellipsize="end"
-                        android:maxLines="3"
-                        android:layout_marginRight="@dimen/index_item_gap"
-                        android:layout_marginLeft="@dimen/index_item_gap"
-                        android:layout_marginTop="@dimen/personal_item_text_gap"
-                        android:layout_marginBottom="@dimen/personal_item_text_gap"
-                        />
+                        android:layout_height="@dimen/index_item_top_height"
+                        android:background="@color/white"
+                        android:clickable="false"
+                        android:focusableInTouchMode="false"
+                        >
+                        <TextView
+                            android:id="@+id/rtitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/balck"
+                            android:text="是就离开离开多久啊发了空间啊老大放假啊说的了"
+                            android:textSize="@dimen/index_item_name_font"
+                            android:gravity="left|center"
+                            android:ellipsize="end"
+                            android:maxLines="3"
+                            android:layout_marginRight="@dimen/index_item_gap"
+                            android:layout_marginLeft="@dimen/index_item_gap"
+                            android:layout_marginTop="@dimen/personal_item_text_gap"
+                            android:layout_marginBottom="@dimen/personal_item_text_gap"
+                            android:clickable="false"
+                            android:focusableInTouchMode="false"
+                            />
+                    </RelativeLayout>
                 </RelativeLayout>
+
             </RelativeLayout>
 
 

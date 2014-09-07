@@ -123,6 +123,10 @@ public class PersonalTabPagerAdapter extends PagerAdapter {
                 }
             });
         }
+        listView.setAdapter(caseAdapter);
+        listView.setXListViewListener(caseAdapter);
+//        mXListViews[i].setAdapter(caseAdapter);
+//        mXListViews[i].setXListViewListener(caseAdapter);
         return view;
     }
     //点击滑动切换item
@@ -160,8 +164,9 @@ public class PersonalTabPagerAdapter extends PagerAdapter {
                                 LinkedList caseList = Json2List.getUserCaseList(data, caseAdapter.getList(), i, page);
                                 if(caseList != null && mXListViews[i] != null){
                                     caseAdapter.setList(caseList);
-                                    mXListViews[i].setAdapter(caseAdapter);
-                                    mXListViews[i].setXListViewListener(caseAdapter);
+                                    caseAdapter.notifyDataSetChanged();
+//                                    mXListViews[i].setAdapter(caseAdapter);
+//                                    mXListViews[i].setXListViewListener(caseAdapter);
                                 }
                             }
                         }else{

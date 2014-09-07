@@ -1,7 +1,6 @@
 package cc.dingding.snail.forepaly.app.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +21,7 @@ import cc.dingding.snail.forepaly.app.views.ViewPagerView;
 /**
  * Created by koudejian on 14-7-30.
  */
-public class PersonalFragment extends Fragment {
+public class PersonalFragment extends BaseFragment {
     private View mView = null;
     private PersonalHeaderController mPersonalHeaderController = null;
     private PersonalTabBannerController mPersonalTabBannerController = null;
@@ -32,10 +31,10 @@ public class PersonalFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.e("lift", "onCreateView");
+        super.onCreateView(inflater, container, savedInstanceState);
         mView  = (View) inflater.inflate(R.layout.fragment_personal, container, false);
         //header and userinfo
         mPersonalHeaderController = new PersonalHeaderController(this.getActivity(), mView);
-
         //tab banner
         mPersonalTabBannerController = new PersonalTabBannerController(this.getActivity(), mView);
 
@@ -82,26 +81,13 @@ public class PersonalFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("lift", "onResume");
         mPersonalTabPagerAdapter.checkedItem(0);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.e("lift", "onPause");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.e("lift", "onStop");
-    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         AdapterFactory.clear();
-        Log.e("lift", "onDestory");
     }
 }

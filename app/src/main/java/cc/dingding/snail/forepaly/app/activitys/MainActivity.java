@@ -46,6 +46,8 @@ public class MainActivity extends BaseFragmentActivity
     private PersonalFragment mPersonalFragment;
     private SearchFragment mSearchFragment;
 
+    private int mJumpId = 0;
+
     private static MainActivity INSTANCE;
     public static MainActivity getInstance(){
         return INSTANCE;
@@ -107,7 +109,10 @@ public class MainActivity extends BaseFragmentActivity
 
     @Override
     public void onFooterClick(int position) {
+        mJumpId = 0;
         if(position == 3 && !MainApplication.isLogin()){
+            mFooterFragment.recoveryDisplayItem(position);
+            mJumpId = position;
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             return;
         }
@@ -128,6 +133,13 @@ public class MainActivity extends BaseFragmentActivity
         ftTemp.commit();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mJumpId > 0 && MainApplication.isLogin()){
+            onFooterClick(mJumpId);
+        }
+    }
 
     /**
      * A placeholder fragment containing a simple view.

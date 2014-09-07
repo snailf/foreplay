@@ -68,13 +68,10 @@ public class LoginActivity extends BaseActivity {
                 public void onStart(SHARE_MEDIA share_media) {
                     Log.e("test", "onStart");
                 }
-
                 @Override
                 public void onComplete(Bundle bundle, SHARE_MEDIA share_media) {
                     Log.e("test", "onComplete");
-
                     final String openid = bundle.getString("uid");
-
                     mController.getPlatformInfo(mContext, share_media, new SocializeListeners.UMDataListener() {
                         @Override
                         public void onStart() {
@@ -91,14 +88,11 @@ public class LoginActivity extends BaseActivity {
                             }
                         }
                     });
-
                 }
-
                 @Override
                 public void onError(SocializeException e, SHARE_MEDIA share_media) {
                     Log.e("test", "onError");
                 }
-
                 @Override
                 public void onCancel(SHARE_MEDIA share_media) {
                     Log.e("test", "onCancel");
@@ -112,7 +106,6 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mContext = this;
-
         mController.getConfig().setPlatforms(SHARE_MEDIA.TENCENT, SHARE_MEDIA.DOUBAN, SHARE_MEDIA.SINA);
 
         /**
@@ -181,5 +174,13 @@ public class LoginActivity extends BaseActivity {
         }else{
             popMessage("暂无网络链接!");
         }
+    }
+
+    @Override
+    public void finish() {
+        if(MainApplication.isLogin()){//获取用户数据
+            MainApplication.getInstance().getUserUpdateCounts();
+        }
+        super.finish();
     }
 }

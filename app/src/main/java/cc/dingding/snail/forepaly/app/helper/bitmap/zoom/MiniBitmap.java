@@ -1,6 +1,7 @@
 package cc.dingding.snail.forepaly.app.helper.bitmap.zoom;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 public class MiniBitmap {
     /**
@@ -16,6 +17,27 @@ public class MiniBitmap {
      * double ratioH = sheight * 1.000 / height;
      */
     public static Bitmap cutBitmap(Bitmap source, int width, int height) {
+        int swidth = source.getWidth();
+        int sheight = source.getHeight();
+
+        double sratio = swidth * 1.000 / sheight;
+        double ratio = width * 1.000 / height;
+        int x = 0, y = 0;
+        int cw = 0, ch = 0;
+        if(sratio > ratio){//裁剪宽度
+            ch = sheight;
+            cw = (int) (sheight * ratio);
+            x = Math.abs(swidth - cw) / 2;
+        }else{
+            cw = swidth;
+            ch = (int) (swidth / ratio);
+            y = Math.abs(sheight - ch) / 2;
+        }
+        Log.e("test", sratio + "-" + ratio + ";" + width + "=" + height + ":" + swidth + "=" + sheight + ";" + x + ":" + y + ":" + cw + ":" + ch);
+        Bitmap temp = Bitmap.createBitmap(source, x, y, cw, ch);
+//        source.recycle();
+        return temp;
+        /*
         int swidth = source.getWidth();
         int sheight = source.getHeight();
 
@@ -39,5 +61,6 @@ public class MiniBitmap {
         Bitmap temp = Bitmap.createBitmap(source, x, y, cw, ch);
 //        source.recycle();
         return temp;
+        //*/
     }
 }

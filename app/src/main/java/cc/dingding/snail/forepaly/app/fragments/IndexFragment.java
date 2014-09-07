@@ -3,7 +3,6 @@ package cc.dingding.snail.forepaly.app.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +32,7 @@ import cc.dingding.snail.forepaly.app.views.xlist.XListView;
 /**
  * Created by koudejian on 14-7-30.
  */
-public class IndexFragment extends Fragment {
+public class IndexFragment extends BaseFragment {
     private View mView = null;
     private IndexHeaderController mIndexHeaderController = null;
     private NavigationDrawerFragment mNavigationDrawerFragment;
@@ -41,7 +40,7 @@ public class IndexFragment extends Fragment {
     private XListView mXListView = null;
     private int mCurrentPage = 1;
     private int mStart = 0;
-    private LinkedList<CaseModel> mCaseList = null;
+    private LinkedList<CaseModel> mCaseList = new LinkedList<CaseModel>();
     private CaseAdapter mCaseAdapter = null;
     private int mWhich = 1;
     private TextViews mTvMsg = null;
@@ -81,20 +80,22 @@ public class IndexFragment extends Fragment {
         public void onRefresh() {
             Log.e("test", "refresh");
             mCurrentPage = 1;
-            loadData(mCurrentPage);
-            mCaseList = null;
+            loadData(true);
+            mCaseList.clear();
         }
 
         @Override
         public void onLoadMore() {
             Log.e("test", "loadmore");
-            loadData(++mCurrentPage);
+            mCurrentPage++;
+            loadData(false);
             mCustomDialog.show();
         }
     };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         mView  = (View) inflater.inflate(R.layout.fragment_index, container, false);
         mContext = mView.getContext();
         mIndexHeaderController = new IndexHeaderController(getActivity(), mView);
@@ -108,7 +109,7 @@ public class IndexFragment extends Fragment {
             @Override
             public void onChecked(int which) {
                 mWhich = which;
-                loadData(1);
+                loadData(true);
             }
         });
         mCustomDialog = new CustomDialog(mContext, CustomDialog.DIALOG_THEME_WAIT_NOT_CANCEL);
@@ -117,15 +118,21 @@ public class IndexFragment extends Fragment {
         mXListView.setXListViewListener(mIXListViewListener);
         mXListView.setPullLoadEnable(true);
 
+        mCaseAdapter = new CaseAdapter(mContext, mCaseList);
+        mXListView.setAdapter(mCaseAdapter);
+
+        mCurrentPage = 1;
+        loadData(true);
+
         return mView;
     }
 
-    private void loadData(int page){
+    private void loadData(final boolean needClear){
         if(DeviceUtils.isNetworkConnected(getActivity())){
             // post 参数
             PostParameter param = new PostParameter();
             param.add("uid", MainApplication.gUser.getUid());
-            param.add("page", page + "");
+            param.add("page", mCurrentPage + "");
             String url = "";
             param.add("tag_id", MainApplication.gTag);
             param.add("start", mStart + "");
@@ -141,17 +148,24 @@ public class IndexFragment extends Fragment {
                         if("0".equals(status)){//success
                             String data = jsonObject.getString(JsonConfig.KEY_DATA);
                             if("null".equals(data)){
-                                popMessages("update 0 counts datas!");
+                                popMessages("更新失败...");
                                 mCurrentPage--;
                             }else {
+                                if(needClear){
+                                    mCaseList.clear();
+                                }
                                 mCaseList = Json2List.getCaseList(data, mCaseList);
-                                mCaseAdapter = new CaseAdapter(mContext, mCaseList);
-                                mXListView.setAdapter(mCaseAdapter);
-                                popMessages("update " + mCaseList.size() + " counts datas!");
+                                mCaseAdapter.notifyDataSetChanged();
+                                if(mWhich != 1 && needClear){
+                                    String time = mCaseList.getFirst().getVtime();
+                                    popMessages("随机穿越到" + time.substring(0, 10));
+                                }else {
+                                    popMessages("已更新数据 " + mCaseList.size() + "条...");
+                                }
                             }
                         }else{
                             mCurrentPage--;
-                            popMessages("errors!");
+                            popMessages("更新失败...");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -182,13 +196,12 @@ public class IndexFragment extends Fragment {
 
     public void onTagChecked(int tag){
         Log.e("test", "tag:" + tag);
-        mCaseList = null;
-        loadData(0);
+        mCurrentPage = 1;
+        loadData(true);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        loadData(1);
     }
 }

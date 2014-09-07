@@ -80,6 +80,54 @@ public class CaseAdapter extends BaseAdapter {
         return position;
     }
 
+    private void initData(final CaseModel caseModel, ImageView logo, TextView name, final FavoriteView favoriteView, RelativeLayout topView, ImageView imageView, RelativeLayout relativeLayout){
+        topView.setLayoutParams(new RelativeLayout.LayoutParams(mWidth, mTitleHeight));
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(mWidth, mHeight);
+        relativeLayout.setLayoutParams(layoutParams);
+        new AsyncBitmapLoader(new ImageModel(caseModel.getLogo()), logo).start();
+        name.setText(caseModel.getName());
+        //listener
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(caseModel.getImages() == null ){
+                    return;
+                }
+                if(caseModel.getImages().size() == 0){
+                    return ;
+                }
+                SharedCache.gCurrentCase = caseModel;
+                mContext.startActivity(new Intent(mContext, DetailsActivity.class));
+            }
+        });
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedCache.gCurrentCase = caseModel;
+                mContext.startActivity(new Intent(mContext, TimeLineActivity.class));
+            }
+        };
+        name.setOnClickListener(onClickListener);
+        logo.setOnClickListener(onClickListener);
+
+//        favoriteView.setFrovite(caseModel.getIsfavorite());
+        favoriteView.setVisibility(View.GONE);
+        favoriteView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if("0".equals(MainApplication.gUser.getUid())){
+                    mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                }else{
+                    setFavorite(caseModel.getId(), favoriteView);
+                }
+            }
+        });
+        if(caseModel.getImages() != null){
+            if(caseModel.getImages().size() > 0){
+                new AsyncBitmapLoader(new ImageModel(caseModel.getImages().get(0).getUrl(), mWidth, mHeight), imageView).start();
+            }
+        }
+    }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = mInflater.inflate(R.layout.item_case_list, null);
@@ -87,69 +135,18 @@ public class CaseAdapter extends BaseAdapter {
         Log.e("test", position + "");
         int positions = 2*position;
         CaseModel caseModel = null;
-
         if( positions < mCaseList.size()){
             caseModel = mCaseList.get(positions);
             ImageView logo = (ImageView) view.findViewById(R.id.logo);
             TextView name = (TextView) view.findViewById(R.id.title);
-            final FavoriteView favoriteView = (FavoriteView) view.findViewById(R.id.isfavate);
-
-            RelativeLayout leftTop = (RelativeLayout) view.findViewById(R.id.top);
-            leftTop.setLayoutParams(new RelativeLayout.LayoutParams(mWidth, mTitleHeight));
-
+            FavoriteView favoriteView = (FavoriteView) view.findViewById(R.id.isfavate);
+            RelativeLayout topView = (RelativeLayout) view.findViewById(R.id.top);
             ImageView imageView = (ImageView) view.findViewById(R.id.fimage);
             RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.fimage_rl);
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(mWidth, mHeight);
-            relativeLayout.setLayoutParams(layoutParams);
-            new AsyncBitmapLoader(new ImageModel(caseModel.getLogo()), logo).start();
-            name.setText(caseModel.getName());
-            favoriteView.setFrovite(caseModel.getIsfavorite());
-            final CaseModel finalCaseModel = caseModel;
-            favoriteView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if("0".equals(MainApplication.gUser.getUid())){
-                        mContext.startActivity(new Intent(mContext, LoginActivity.class));
-                    }else{
-                        setFavorite(finalCaseModel.getId(), favoriteView);
-                    }
-                }
-            });
-            if(caseModel.getImages() != null){
-                if(caseModel.getImages().size() > 0){
-                    new AsyncBitmapLoader(new ImageModel(caseModel.getImages().get(0).getUrl(), mWidth, mHeight), imageView).start();
-                }
-            }
-
-            //listener
-
-            final CaseModel finalCaseModel1 = caseModel;
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(finalCaseModel.getImages() == null ){
-                        return;
-                    }
-                    if(finalCaseModel.getImages().size() == 0){
-                        return ;
-                    }
-                    SharedCache.gCurrentCase = finalCaseModel1;
-                    mContext.startActivity(new Intent(mContext, DetailsActivity.class));
-                }
-            });
-            View.OnClickListener onClickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SharedCache.gCurrentCase = finalCaseModel1;
-                    mContext.startActivity(new Intent(mContext, TimeLineActivity.class));
-                }
-            };
-            name.setOnClickListener(onClickListener);
-            logo.setOnClickListener(onClickListener);
+            initData(caseModel, logo, name, favoriteView, topView, imageView, relativeLayout);
         }else{
             view.findViewById(R.id.left_rl).setVisibility(View.GONE);
         }
-
         positions += 1;
         if(positions < mCaseList.size()){
             caseModel = mCaseList.get(positions);
@@ -157,57 +154,12 @@ public class CaseAdapter extends BaseAdapter {
             TextView name = (TextView) view.findViewById(R.id.rtitle);
             final FavoriteView favoriteView = (FavoriteView) view.findViewById(R.id.risfavate);
             ImageView imageView = (ImageView) view.findViewById(R.id.rfimage);
-
-            RelativeLayout rightTop = (RelativeLayout) view.findViewById(R.id.rtop);
-            rightTop.setLayoutParams(new RelativeLayout.LayoutParams(mWidth, mTitleHeight));
-
+            RelativeLayout topView = (RelativeLayout) view.findViewById(R.id.rtop);
             RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.rfimage_rl);
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(mWidth, mHeight);
-            relativeLayout.setLayoutParams(layoutParams);
-
-            new AsyncBitmapLoader(new ImageModel(caseModel.getLogo()), logo).start();
-            name.setText(caseModel.getName());
-            favoriteView.setFrovite(caseModel.getIsfavorite());
-            final CaseModel finalCaseModel = caseModel;
-            favoriteView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if("0".equals(MainApplication.gUser.getUid())){
-                        mContext.startActivity(new Intent(mContext, LoginActivity.class));
-                    }else{
-                        setFavorite(finalCaseModel.getId(), favoriteView);
-                    }
-                }
-            });
-            if(caseModel.getImages() != null){
-                if(caseModel.getImages().size() > 0){
-                    new AsyncBitmapLoader(new ImageModel(caseModel.getImages().get(0).getUrl(), mWidth, mHeight), imageView).start();
-                }else{
-
-                }
-            }
-
-            //listener
-
-            final CaseModel finalCaseModel2 = caseModel;
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SharedCache.gCurrentCase = finalCaseModel2;
-                    mContext.startActivity(new Intent(mContext, DetailsActivity.class));
-                }
-            });
-            logo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SharedCache.gCurrentCase = finalCaseModel;
-                    mContext.startActivity(new Intent(mContext, TimeLineActivity.class));
-                }
-            });
+            initData(caseModel, logo, name, favoriteView, topView, imageView, relativeLayout);
         }else{
             view.findViewById(R.id.right_rl).setVisibility(View.GONE);
         }
-
         return view;
     }
 

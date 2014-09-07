@@ -74,7 +74,6 @@ public class TimeLineActivity extends BaseActivity {
                             mContext.startActivity(new Intent(Intent.ACTION_VIEW, url));
                         }
                     }
-
                 }
             }
         );
@@ -97,7 +96,6 @@ public class TimeLineActivity extends BaseActivity {
                             String data = jsonObject.getString(JsonConfig.KEY_DATA);
                             mCaseList = Json2List.getCaseList(data, mCaseList);
                             TimeLineAdapter caseAdapter = new TimeLineAdapter(mContext, mCaseList);
-                            caseAdapter.popMessage("test: not null->" + caseAdapter.getCount() );
                             mCusListView.setAdapter(caseAdapter);
                         }else{
                             popMessage("操作失败！");

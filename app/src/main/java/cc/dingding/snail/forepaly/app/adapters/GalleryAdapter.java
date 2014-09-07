@@ -20,33 +20,36 @@ import cc.dingding.snail.forepaly.app.helper.bitmap.model.ImageModel;
 import cc.dingding.snail.forepaly.app.models.CaseModel;
 import cc.dingding.snail.forepaly.app.models.ImageUrlModel;
 import cc.dingding.snail.forepaly.app.utils.DeviceUtils;
-import cc.dingding.snail.forepaly.app.views.MyGallery;
 
 public class GalleryAdapter extends BaseAdapter {
     private int mWidth = 0;
     private int mHeight = 0;
 
-    private final Context mContext;
     private List<ImageUrlModel> mPhoto = null;
 
     private CaseModel mCaseModel = null;
 
-    private MyGallery mGallery = null;
-
     public AdapterView.OnItemSelectedListener mOnSelectedListener = null;
     private LayoutInflater mInflater;
-    public GalleryAdapter(Context context, CaseModel caseModel, MyGallery gallery) {
-        mContext = context;
+
+    private OnItemSelectedCallBack mOnItemSelectedCallBack = null;
+
+    public interface OnItemSelectedCallBack {
+        public void onItemSelected(int i);
+    }
+    public GalleryAdapter(Context context, CaseModel caseModel, OnItemSelectedCallBack onItemSelectedCallBack) {
         mCaseModel = caseModel;
         mPhoto = mCaseModel.getImages();
-        mGallery = gallery;
         mHeight = DeviceUtils.deviceHeight(context);
         mWidth = DeviceUtils.deviceWidth(context);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+        mOnItemSelectedCallBack = onItemSelectedCallBack;
         mOnSelectedListener = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, final View view, int position, long id) {
+                if(mOnItemSelectedCallBack != null){
+                    mOnItemSelectedCallBack.onItemSelected(position);
+                }
                 String url = mPhoto.get(position).getUrl();
                 final ImageView imageView = (ImageView) view.findViewById(R.id.image);
                 new AsyncBitmapLoader(new ImageModel(url), imageView).setBitMapLoadedListener(new BitMapLoadedListener() {

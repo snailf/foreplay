@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import cc.dingding.snail.forepaly.app.R;
+import cc.dingding.snail.forepaly.app.helper.bitmap.AsyncBitMapLoaderManager;
 
 
 public class BaseActivity extends Activity {
@@ -17,6 +18,7 @@ public class BaseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AsyncBitMapLoaderManager.getInstance().clear();
     }
 
     @Override

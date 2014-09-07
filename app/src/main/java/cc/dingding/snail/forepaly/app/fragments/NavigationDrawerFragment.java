@@ -19,6 +19,7 @@ import java.util.LinkedList;
 
 import cc.dingding.snail.forepaly.app.R;
 import cc.dingding.snail.forepaly.app.adapters.DrawerAdapter;
+import cc.dingding.snail.forepaly.app.cache.SharedCache;
 import cc.dingding.snail.forepaly.app.config.JsonConfig;
 import cc.dingding.snail.forepaly.app.config.UrlConfig;
 import cc.dingding.snail.forepaly.app.factorys.Json2List;
@@ -47,9 +48,8 @@ public class NavigationDrawerFragment extends Fragment {
     private StretchScrollView mStretchScrollView = null;
 
     private int mCurrentSelectedPosition = 0;
-
+    DrawerAdapter mDrawerAdapter = null;
     private int mPage = 0;
-    private int mStart = 0;
     private LinkedList<CaseTagModel> mCaseTagList = null;
 
     private View mView = null;
@@ -84,9 +84,9 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
 
-//        mCaseTagList = Json2List.getCaseTagList(SharedCache.tagCache, mCaseTagList);
-//        DrawerAdapter adapter = new DrawerAdapter(getActivity(), mCaseTagList);
-//        mDrawerListView.setAdapter(adapter);
+        mCaseTagList = Json2List.getCaseTagList(SharedCache.getTagCache(), mCaseTagList);
+        mDrawerAdapter = new DrawerAdapter(getActivity(), mCaseTagList);
+        mDrawerListView.setAdapter(mDrawerAdapter);
 
         if(DeviceUtils.isNetworkConnected(getActivity())){
             // post 参数
@@ -100,10 +100,11 @@ public class NavigationDrawerFragment extends Fragment {
                         jsonObject = new JSONObject(request);
                         String status = jsonObject.getString(JsonConfig.KEY_STATUS);
                         if("0".equals(status)){//success
+                            mCaseTagList.clear();
                             String data = jsonObject.getString(JsonConfig.KEY_DATA);
+                            SharedCache.setTagCache(data);
                             mCaseTagList = Json2List.getCaseTagList(data, mCaseTagList);
-                            DrawerAdapter adapter = new DrawerAdapter(getActivity(), mCaseTagList);
-                            mDrawerListView.setAdapter(adapter);
+                            mDrawerAdapter.notifyDataSetChanged();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -133,11 +134,6 @@ public class NavigationDrawerFragment extends Fragment {
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
-//        // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
-//        // per the navigation drawer design guidelines.
-//        if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
-//            mDrawerLayout.openDrawer(mFragmentContainerView);
-//        }
     }
 
     private void selectItem(int position) {

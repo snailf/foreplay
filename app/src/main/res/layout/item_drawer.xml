@@ -21,6 +21,7 @@
         android:layout_height="match_parent"
         android:minHeight="@dimen/drawer_item_height"
         android:textColor="@color/drawer_text_gray"
+        android:textSize="@dimen/drawer_text_size"
         android:singleLine="true"
         android:gravity="center"
         android:text="所有分类"

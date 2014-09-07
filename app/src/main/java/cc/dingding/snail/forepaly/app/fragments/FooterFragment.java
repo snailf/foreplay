@@ -136,8 +136,6 @@ public class FooterFragment extends Fragment {
             params.width = this.getFooterItemWidth();
             footerItem.setLayoutParams(params);
             RadioButton rbButton = (RadioButton) footerItem.findViewById(R.id.tab);
-            // rbButton.setButtonDrawable(getResources().getDrawable(temp.getId()));
-            // CompoundDrawablesRelativeWithIntrinsicBounds(0, temp.getId(), 0, 0);
             rbButton.setCompoundDrawablesWithIntrinsicBounds(0, temp.getId(), 0, 0);
             rbButton.setText(temp.getText());
 

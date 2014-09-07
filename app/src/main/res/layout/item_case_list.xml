@@ -173,8 +173,7 @@
                     <ImageView
                         android:id="@+id/rfimage"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="50dip"
+                        android:layout_height="match_parent"
                         android:background="@drawable/test"
                         android:scaleType="fitCenter"
                         />

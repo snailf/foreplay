@@ -6,4 +6,5 @@ package cc.dingding.snail.forepaly.app.helper.bitmap.config;
 public class Config {
     // 图片缓存目录
     public final static String IMAGE_CACHE_DIR = "/forepaly/images/";
+    public final static String IMAGE_SPLICE_DIR = "forepaly/splice/";
 }

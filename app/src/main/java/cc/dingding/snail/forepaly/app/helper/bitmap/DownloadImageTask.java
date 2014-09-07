@@ -119,9 +119,9 @@ public class DownloadImageTask extends AsyncTask<String, Void , String> {
             if(mDownloadListener != null ){
                 mDownloadListener.OnSuccessed(this);
             }
-            if(mBitMapLoadListener != null){
-                mBitMapLoadListener.OnSuccessed(mPhoto);
-            }
+        }
+        if(mBitMapLoadListener != null){
+            mBitMapLoadListener.OnSuccessed(mPhoto);
         }
     }
 }

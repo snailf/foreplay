@@ -3,7 +3,6 @@ package cc.dingding.snail.forepaly.app.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -41,7 +40,7 @@ import cc.dingding.snail.forepaly.app.views.xlist.XListView;
 /**
  * Created by koudejian on 14-7-30.
  */
-public class SearchFragment extends Fragment {
+public class SearchFragment extends BaseFragment {
     private View mView = null;
     private View mSearchView = null;
 
@@ -118,6 +117,7 @@ public class SearchFragment extends Fragment {
     };
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         mView  = inflater.inflate(R.layout.fragment_search, container, false);
         mContext = getActivity();
         mSearchView = mView.findViewById(R.id.search_result_rl);

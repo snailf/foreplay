@@ -42,21 +42,21 @@ public class CaseAppActivity extends BaseActivity {
     private int mCurrentPage = 0;
 
     private CaseAppAdapter mCaseAppAdapter = null;
-    private LinkedList<CommentsModel> mCommentsList = null;
+    private LinkedList<CommentsModel> mCommentsList = new LinkedList<CommentsModel>();
 
     private final XListView.IXListViewListener mIXListViewListener = new XListView.IXListViewListener() {
         @Override
         public void onRefresh() {
             Log.e("test", "refresh");
-            mCurrentPage = 1;
-            loadData(mCurrentPage);
-            mCommentsList = null;
+            mCurrentPage = 0;
+            loadData(true);
+            mCommentsList.clear();
         }
-
         @Override
         public void onLoadMore() {
             Log.e("test", "loadmore");
-            loadData(++mCurrentPage);
+            mCurrentPage++;
+            loadData(false);
             mCustomDialog.show();
         }
     };
@@ -87,22 +87,20 @@ public class CaseAppActivity extends BaseActivity {
                 }
         );
         mCustomDialog = new CustomDialog(mContext, CustomDialog.DIALOG_THEME_WAIT_NOT_CANCEL);
-
         //xlistview
         mXListView = (XListView) mView.findViewById(R.id.xlistview);
         mXListView.setXListViewListener(mIXListViewListener);
         mXListView.setPullLoadEnable(true);
-
-
+        mCaseAppAdapter = new CaseAppAdapter(mContext, mCommentsList);
+        mXListView.setAdapter(mCaseAppAdapter);
     }
 
-    private void loadData(int page){
+    private void loadData(final boolean needClear){
         if(DeviceUtils.isNetworkConnected(mContext)){
             // post 参数
             PostParameter param = new PostParameter();
             param.add("cid", mCaseModel.getId());
-            param.add("page", page + "");
-
+            param.add("page", mCurrentPage + "");
             PostDataTask postDataTask = new PostDataTask(UrlConfig.GET_CASE_COMMENTS_LIST, param) {
                 @Override
                 public void dealWithResult(String request) {
@@ -115,9 +113,11 @@ public class CaseAppActivity extends BaseActivity {
                             if("null".equals(data)){
                                 mCurrentPage--;
                             }else {
+                                if(needClear){
+                                    mCommentsList.clear();
+                                }
                                 mCommentsList = Json2List.getCommentsList(data, mCommentsList);
-                                mCaseAppAdapter = new CaseAppAdapter(mContext, mCommentsList);
-                                mXListView.setAdapter(mCaseAppAdapter);
+                                mCaseAppAdapter.notifyDataSetChanged();
                             }
                         }else{
                             mCurrentPage--;
@@ -141,6 +141,7 @@ public class CaseAppActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadData(0);
+        mCurrentPage = 0;
+        loadData(true);
     }
 }

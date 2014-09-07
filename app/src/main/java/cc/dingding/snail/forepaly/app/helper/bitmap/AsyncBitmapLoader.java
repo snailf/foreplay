@@ -18,6 +18,7 @@ import cc.dingding.snail.forepaly.app.helper.bitmap.config.Config;
 import cc.dingding.snail.forepaly.app.helper.bitmap.listener.BitMapLoadListener;
 import cc.dingding.snail.forepaly.app.helper.bitmap.listener.BitMapLoadedListener;
 import cc.dingding.snail.forepaly.app.helper.bitmap.model.ImageModel;
+import cc.dingding.snail.forepaly.app.helper.bitmap.utils.MD5;
 import cc.dingding.snail.forepaly.app.helper.bitmap.zoom.MiniBitmap;
 
 public class AsyncBitmapLoader {
@@ -35,6 +36,12 @@ public class AsyncBitmapLoader {
         mBitMapLoadListener = new BitMapLoadListener() {
             @Override
             public void OnSuccessed(Bitmap bitmap) {
+                if(mBitMapLoadedListener != null){
+                    mBitMapLoadedListener.OnSuccessed(bitmap);
+                }
+                if(bitmap == null){
+                    return;
+                }
                 //下载完成，保存并设置图片
                 //is need cut image
                 if(mImage.isCut()){
@@ -48,9 +55,6 @@ public class AsyncBitmapLoader {
                     }
                     //裁剪
                     bitmap = MiniBitmap.cutBitmap(bitmap, mImage.getWidth(), mImage.getHeight());
-                }
-                if(mBitMapLoadedListener != null){
-                    mBitMapLoadedListener.OnSuccessed(bitmap);
                 }
                 if(mImageView != null){
                     mImageView.setBackgroundDrawable(new BitmapDrawable(bitmap));
@@ -93,7 +97,7 @@ public class AsyncBitmapLoader {
     /**
      * 开始下载图片，下载完成自动加载
      */
-    public void start(){
+    public AsyncBitmapLoader start(){
         if(!"".equals(mImageUrl)){
             //1.read image cache in HashMap
             Log.d(TAG, "step:1");
@@ -107,6 +111,7 @@ public class AsyncBitmapLoader {
                 }
             }
         }
+        return this;
     }
     /**
      * get image names in SD card
@@ -114,18 +119,14 @@ public class AsyncBitmapLoader {
      * @return
      */
     public String getImageName(String url, ImageModel image){
-        url = url.replaceAll("/", "");
-        url = url.replaceAll(":", "");
-        
         if(image.isCut()){
             url = image.getWidth() + "x" + image.getHeight() + url;
         }
-        return url;
+        return MD5.md5Encode(url);
     }
+
     public String getImageName(String url){
-        url = url.replaceAll("/", "");
-        url = url.replaceAll(":", "");
-        return url;
+        return MD5.md5Encode(url);
     }
     private Boolean LoadImageFromCache(){
         Bitmap bitmap = MemoryCache.getInstance().get(mImageName);
@@ -189,7 +190,7 @@ public class AsyncBitmapLoader {
      * create dir at direction
      * @param dir
      */
-    public void createDir(String dir){
+    public static void createDir(String dir){
         File file = new File(dir);
         if (!file.exists()) {
             try {
@@ -199,5 +200,37 @@ public class AsyncBitmapLoader {
                 e.printStackTrace();
             }
         }
+    }
+    /**
+     * 下载图片数据
+     * @param url
+     * @return
+     */
+    private static final String mDownloadPath = "/DCIM/APP/";
+    public static String downloadImage(String url){
+        String errorMsg = "";
+        String oldPath = Environment.getExternalStorageDirectory() + Config.IMAGE_CACHE_DIR + MD5.md5Encode(url);
+        Bitmap bitmap = BitmapFactory.decodeFile(oldPath);
+        if(bitmap != null){
+            String newPath = Environment.getExternalStorageDirectory() + mDownloadPath + MD5.md5Encode(url).substring(0, 8) + ".png";
+            createDir(Environment.getExternalStorageDirectory() + mDownloadPath);
+            File myCaptureFile = new File(newPath);
+            try {
+                BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+                bos.flush();
+                bos.close();
+                errorMsg = "下载成功:" + newPath;
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                errorMsg = "下载失败...";
+            } catch (IOException e) {
+                e.printStackTrace();
+                errorMsg = "下载失败...";
+            }
+        }else{
+            errorMsg = "正在加载图片，请稍候再试...";
+        }
+        return errorMsg;
     }
 }

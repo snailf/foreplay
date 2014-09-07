@@ -14,14 +14,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import cc.dingding.snail.forepaly.app.R;
-import cc.dingding.snail.forepaly.app.activitys.CaseAppActivity;
+import cc.dingding.snail.forepaly.app.activitys.DetailsActivity;
 import cc.dingding.snail.forepaly.app.cache.SharedCache;
 import cc.dingding.snail.forepaly.app.helper.bitmap.AsyncBitmapLoader;
 import cc.dingding.snail.forepaly.app.helper.bitmap.listener.BitMapLoadedListener;
 import cc.dingding.snail.forepaly.app.helper.bitmap.model.ImageModel;
 import cc.dingding.snail.forepaly.app.models.CaseHistoryModel;
 import cc.dingding.snail.forepaly.app.models.ImageUrlModel;
-import cc.dingding.snail.forepaly.app.views.CustomDialog;
 import cc.dingding.snail.forepaly.app.views.xlist.XListView;
 
 /**
@@ -31,16 +30,16 @@ public class HistoryCaseAdapter extends UserCaseAdapter{
 
     private float mScale = (float) 1.5;         //640x960(3:2)
 
-    private CustomDialog mCustomDialog = null;
-
     protected XListView mXListView = null;
     protected LinkedList<CaseHistoryModel> mCaseList = null;
     protected LayoutInflater mInflater;
+    private int mHeight = 0;
     private int mWidth = 0;
     public HistoryCaseAdapter(XListView xListView, Context context, LinkedList<CaseHistoryModel> list){
         super(context);
         this.mXListView = xListView;
-
+        mHeight = (int) (mContext.getResources().getDimension(R.dimen.details_iamge_height) - mContext.getResources().getDimension(R.dimen.personal_case_history_margin));
+        mWidth = (int) (mHeight/ mScale);
         mCaseList = list;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -75,7 +74,7 @@ public class HistoryCaseAdapter extends UserCaseAdapter{
             @Override
             public void onClick(View v) {
                 SharedCache.gCurrentCase = caseModel;
-                mContext.startActivity(new Intent(mContext, CaseAppActivity.class));
+                mContext.startActivity(new Intent(mContext, DetailsActivity.class));
             }
         };
 
@@ -86,23 +85,18 @@ public class HistoryCaseAdapter extends UserCaseAdapter{
             top_line.setVisibility(View.INVISIBLE);
         }
         final ImageView imageView = (ImageView) view.findViewById(R.id.image0);
-        RelativeLayout image_rl = (RelativeLayout) view.findViewById(R.id.image_rl);
-        mWidth = image_rl.getLayoutParams().width;
+
+
 
         List<ImageUrlModel> images = caseModel.getImages();
         if(images != null){
             if(images.size() > 0){
-                new AsyncBitmapLoader(new ImageModel(images.get(0).getUrl()), imageView).setBitMapLoadedListener(new BitMapLoadedListener() {
+                new AsyncBitmapLoader(new ImageModel(images.get(0).getUrl(), mWidth, mHeight), imageView).setBitMapLoadedListener(new BitMapLoadedListener() {
                     @Override
                     public void OnSuccessed(Bitmap bitmap) {
                         if (bitmap != null) {
-                            if(mWidth > 0) {
-                                int height = bitmap.getHeight();
-                                int width = bitmap.getWidth();
-
-                                int height_rl, width_rl = mWidth;
-                                height_rl = (int) (1.000 * mWidth * height / width);
-                                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width_rl, height_rl);
+                            if(mHeight > 0) {
+                                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(mWidth, mHeight);
                                 imageView.setLayoutParams(params);
                             }
                         }

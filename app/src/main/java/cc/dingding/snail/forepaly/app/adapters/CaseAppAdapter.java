@@ -3,6 +3,7 @@ package cc.dingding.snail.forepaly.app.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,6 +92,9 @@ public class CaseAppAdapter extends BaseAdapter {
                 TextView name = (TextView) view.findViewById(R.id.name);
                 name.setText(caseModel.getName());
 
+                ImageView logo = (ImageView) view.findViewById(R.id.logo);
+                new AsyncBitmapLoader(new ImageModel(caseModel.getLogo()), logo).start();
+
                 final FavoriteView favoriteView = (FavoriteView) view.findViewById(R.id.isfavate);
                 favoriteView.setFrovite(caseModel.getIsfavorite());
                 favoriteView.setOnClickListener(new View.OnClickListener() {
@@ -105,12 +109,11 @@ public class CaseAppAdapter extends BaseAdapter {
                 });
                 mMyGallery = (MyGallery) view.findViewById(R.id.gallery);
                 mMyGallery.setSpacing((int) mContext.getResources().getDimension(R.dimen.gallery_app_gap));
-                GalleryAdapter galleryAdapter = new GalleryAdapter(mContext, caseModel, mMyGallery);
+                GalleryAdapter galleryAdapter = new GalleryAdapter(mContext, caseModel, null);
                 mMyGallery.setAdapter(galleryAdapter);
                 mMyGallery.setOnItemSelectedListener(galleryAdapter.mOnSelectedListener);
 
             }
-
         }else{
             view =  mInflater.inflate(R.layout.item_comments_info, null);
             CommentsModel commentsModel = mCommentsList.get(position);
@@ -118,6 +121,7 @@ public class CaseAppAdapter extends BaseAdapter {
                 TextView title = (TextView) view.findViewById(R.id.title_tv);
                 title.setVisibility(View.VISIBLE);
             }
+
             TextView comments_content = (TextView) view.findViewById(R.id.comments_content);
             comments_content.setText(commentsModel.getComments());
 
@@ -129,6 +133,7 @@ public class CaseAppAdapter extends BaseAdapter {
 
             ImageView avatarView = (ImageView) view.findViewById(R.id.avatar);
             new AsyncBitmapLoader(new ImageModel(commentsModel.getAvatar()), avatarView).start();
+            Log.e("test", commentsModel.getAvatar());
         }
 
         return view;
