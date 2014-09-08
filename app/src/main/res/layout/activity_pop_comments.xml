@@ -35,12 +35,16 @@
                     />
             </RelativeLayout>
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/title"
+                android:layout_width="@dimen/comment_pop_image_size"
                 android:layout_height="@dimen/comment_pop_text_height"
                 android:text="-   来自前戏   -"
                 android:textColor="@color/balck"
                 android:textSize="16dip"
                 android:gravity="center"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:layout_gravity="center_horizontal"
                 />
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -94,6 +98,5 @@
                     />
             </LinearLayout>
         </LinearLayout>
-
     </RelativeLayout>
 </RelativeLayout>

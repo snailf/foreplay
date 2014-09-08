@@ -1,29 +1,24 @@
-package cc.dingding.snail.forepaly.app.activitys;
+package cc.dingding.snail.forepaly.app.controllers;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-
 import cc.dingding.snail.forepaly.app.MainApplication;
 import cc.dingding.snail.forepaly.app.R;
+import cc.dingding.snail.forepaly.app.activitys.LoginActivity;
 import cc.dingding.snail.forepaly.app.cache.SharedCache;
 import cc.dingding.snail.forepaly.app.config.JsonConfig;
 import cc.dingding.snail.forepaly.app.config.UrlConfig;
-import cc.dingding.snail.forepaly.app.helper.bitmap.AsyncBitmapLoader;
-import cc.dingding.snail.forepaly.app.helper.bitmap.model.ImageModel;
 import cc.dingding.snail.forepaly.app.models.CaseModel;
-import cc.dingding.snail.forepaly.app.models.ImageUrlModel;
+import cc.dingding.snail.forepaly.app.models.CommentsModel;
 import cc.dingding.snail.forepaly.app.network.PostDataTask;
 import cc.dingding.snail.forepaly.app.network.PostParameter;
 import cc.dingding.snail.forepaly.app.utils.DeviceUtils;
@@ -31,78 +26,50 @@ import cc.dingding.snail.forepaly.app.utils.StringUtil;
 import cc.dingding.snail.forepaly.app.views.CustomDialog;
 
 /**
- * Created by koudejian on 14-8-22.
- * 弹出评论框
+ * Created by koudejian on 14-9-8.
  */
-public class CommentPopActivity extends BaseActivity {
-    private ImageView mIvImage = null;
-    private EditText mEtComment = null;
-    private TextView mTvCancel = null;
+public class CommentsFooterController extends BaseController {
     private TextView mTvSend = null;
-    private TextView mTvTitle = null;
-
-    private Context mContext = null;
-    private CustomDialog mCustomDialog = null;
+    private EditText mEtMsg = null;
     private CaseModel mCaseModel = null;
+    private CustomDialog mCustomDialog = null;
 
+    private OnCommitSuccessedListener mOnCommitSuccessedListener = null;
+    public CommentsFooterController(Context context, View view) {
+        super(context, view);
+        init();
+    }
+
+    public interface OnCommitSuccessedListener{
+        public void onCommitSuccessed(CommentsModel commentsModel);
+    }
+    public void setOnCommitSuccessedListener(OnCommitSuccessedListener onCommitSuccessedListener){
+        mOnCommitSuccessedListener = onCommitSuccessedListener;
+    }
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pop_comments);
-        //评论状态
-        SharedCache.haveComment = true;
-        SharedCache.haveCommit = false;
-
-        mContext = this;
+    void init() {
         mCaseModel = SharedCache.gCurrentCase;
-
-        int size = (int) getResources().getDimension(R.dimen.comment_pop_image_size);
-        mIvImage = (ImageView) findViewById(R.id.image);
-        List<ImageUrlModel> images = mCaseModel.getImages();
-        if(images != null){
-            if(images.size() > 0){
-                new AsyncBitmapLoader(new ImageModel(images.get(0).getUrl(), size, size), mIvImage).start();
-            }
-        }
-        mEtComment = (EditText) findViewById(R.id.comments);
-        mEtComment.setEnabled(canCommit());
-        //button
-        mTvCancel = (TextView) findViewById(R.id.cancel);
-        mTvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CommentPopActivity.this.finish();
-            }
-        });
         mTvSend = (TextView) findViewById(R.id.send);
+        mEtMsg = (EditText) findViewById(R.id.comment_text);
+        mTvSend.setEnabled(canCommit());
         mTvSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String msg = mEtComment.getText().toString();
+                String msg = mEtMsg.getText().toString().trim();
                 if(!"".equals(msg)){
                     if(MainApplication.isLogin()){
-                        addComments(msg);
+                        addCaseComments(msg);
                     }else{
-                        startActivity(new Intent(CommentPopActivity.this, LoginActivity.class));
+                        mContext.startActivity(new Intent(mContext, LoginActivity.class));
                     }
                 }
             }
         });
-
-        mTvTitle = (TextView) findViewById(R.id.title);
-        mTvTitle.setText(mCaseModel.getName());
-
-        mEtComment.addTextChangedListener(new TextWatcher() {
+        mEtMsg.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
             public void afterTextChanged(Editable s) {
                 mTvSend.setEnabled(canCommit());
@@ -110,14 +77,14 @@ public class CommentPopActivity extends BaseActivity {
         });
     }
     private boolean canCommit() {
-        String msg = mEtComment.getText().toString().trim();
+        String msg = mEtMsg.getText().toString().trim();
         if (StringUtil.isEmpty(msg)) {
             return false;
         }
         return true;
     }
 
-    private void addComments(String msg) {
+    private void addCaseComments(final String msg) {
         if(DeviceUtils.isNetworkConnected(mContext)){
             // post 参数
             PostParameter param = new PostParameter();
@@ -132,9 +99,15 @@ public class CommentPopActivity extends BaseActivity {
                         jsonObject = new JSONObject(request);
                         String status = jsonObject.getString(JsonConfig.KEY_STATUS);
                         if("0".equals(status)){//success
+                            if(mOnCommitSuccessedListener != null){
+                                String data = jsonObject.getString(JsonConfig.KEY_DATA);
+                                JSONObject temp = new JSONObject(data);
+                                String id = temp.getString(JsonConfig.KEY_COMMENTS_ID);
+                                String times = temp.getString(JsonConfig.KEY_COMMENTS_TIME);
+                                mOnCommitSuccessedListener.onCommitSuccessed(new CommentsModel(id, times, msg, "0", MainApplication.gUser.getAvatar(), MainApplication.gUser.getNick()));
+                            }
+                            mEtMsg.setText("");
                             popMessage("发表评论成功...");
-                            SharedCache.haveCommit = true;
-                            CommentPopActivity.this.finish();
                         }else{
                             popMessage("评论失败，请稍候再试...");
                         }

@@ -27,6 +27,10 @@ public class UrlConfig {
      */
     public final static String USER_ADD_APPROVE = HOST + "index.php?r=api/addApprove";
     /**
+     * 评论点赞
+     */
+    public final static String USER_ADD_COMMENTS_APPROVE = HOST + "index.php?r=api/addCommentApprove";
+    /**
      * 时间轴
      */
     public final static String GET_CASE_APP_LIST_TIMELINE = HOST + "index.php?r=api/getOneAppList";
@@ -44,5 +48,8 @@ public class UrlConfig {
     public final static String Get_USR_UPDATE_COUNTS = HOST + "index.php?r=api/getUserUpdateCounts";
     //搜索关键词列表
     public final static String GET_KEY_WORD_LIST = HOST + "index.php?r=api/getKeywordList";
-
+    /**
+     * 上传用户浏览记录
+     */
+    public final static String SET_USER_HISTORY_URL = HOST + "index.php?r=api/setHistory";
 }

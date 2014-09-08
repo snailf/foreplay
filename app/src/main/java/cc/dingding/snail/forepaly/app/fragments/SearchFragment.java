@@ -30,6 +30,7 @@ import cc.dingding.snail.forepaly.app.factorys.Json2List;
 import cc.dingding.snail.forepaly.app.graphics.ButtonModel;
 import cc.dingding.snail.forepaly.app.graphics.RandomButtonOnClickListener;
 import cc.dingding.snail.forepaly.app.graphics.RandomView;
+import cc.dingding.snail.forepaly.app.listeners.ShakeListener;
 import cc.dingding.snail.forepaly.app.models.CaseModel;
 import cc.dingding.snail.forepaly.app.network.PostDataTask;
 import cc.dingding.snail.forepaly.app.network.PostParameter;
@@ -54,10 +55,12 @@ public class SearchFragment extends BaseFragment {
 
     private XListView mXListView = null;
     private int mCurrentPage = 1;
-    private LinkedList<CaseModel> mCaseList = null;
+    private LinkedList<CaseModel> mCaseList = new LinkedList<CaseModel>();;
     private CaseAdapter mCaseAdapter = null;
     private String mKeywordStr = "[{\"id\":\"1\",\"name\":\"\\u5065\\u5eb7\",\"colors\":\"#0f9823\"},{\"id\":\"2\",\"name\":\"\\u624b\\u673a\",\"colors\":\"#0000ff\"},{\"id\":\"3\",\"name\":\"\\u97f3\\u4e50\",\"colors\":\"#00ffff\"},{\"id\":\"4\",\"name\":\"\\u7535\\u89c6\",\"colors\":\"#ffffff\"},{\"id\":\"5\",\"name\":\"\\u5fae\",\"colors\":\"#ff0000\"},{\"id\":\"6\",\"name\":\"\\u7a7a\\u95f4\",\"colors\":\"#00ff00\"},{\"id\":\"7\",\"name\":\"QQ\",\"colors\":\"#ff0056\"}]";
     private TextViews mTvMsg = null;
+
+    private ShakeListener mShakeListener = null;
 
     private List<ButtonModel> mButtonModelList = null;
     private RandomView mRandomView = null;
@@ -73,6 +76,13 @@ public class SearchFragment extends BaseFragment {
     private void switchView(boolean isVisible){
         mSearchView.setVisibility( isVisible ? View.VISIBLE : View.INVISIBLE);
         mCanBack = isVisible;
+        if(mShakeListener != null){
+            if(isVisible){
+                mShakeListener.stop();
+            }else{
+                mShakeListener.start();
+            }
+        }
     }
     /**
      * pop textview
@@ -105,7 +115,6 @@ public class SearchFragment extends BaseFragment {
             Log.e("test", "refresh");
             mCurrentPage = 1;
             loadData(mCurrentPage);
-            mCaseList = null;
         }
 
         @Override
@@ -170,6 +179,9 @@ public class SearchFragment extends BaseFragment {
         mXListView.setXListViewListener(mIXListViewListener);
         mXListView.setPullLoadEnable(true);
 
+        mCaseAdapter = new CaseAdapter(mContext, mCaseList);
+        mXListView.setAdapter(mCaseAdapter);
+
         //search key
         mRandomView = (RandomView) mView.findViewById(R.id.myrandom_view);
         mRandomView.setRandomButtonOnClickListener(new RandomButtonOnClickListener() {
@@ -210,8 +222,14 @@ public class SearchFragment extends BaseFragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    if(mShakeListener != null){
+                        mShakeListener.start();
+                    }
                 }
             };
+            if(mShakeListener != null){
+                mShakeListener.stop();
+            }
             postDataTask.execute();
         }else{//加载缓存
 
@@ -250,9 +268,8 @@ public class SearchFragment extends BaseFragment {
 //                                mSearchView.setVisibility(View.VISIBLE);
                                 switchView(true);
                                 mCaseList = Json2List.getCaseList(data, mCaseList);
-                                mCaseAdapter = new CaseAdapter(mContext, mCaseList);
-                                mXListView.setAdapter(mCaseAdapter);
-                                popMessages("update " + mCaseList.size() + " counts datas!");
+                                mCaseAdapter.notifyDataSetChanged();
+                                popMessages("已更新数据 " + mCaseList.size() + "条...");
                             }
                         }else{
                             if(mCurrentPage > 1){
@@ -302,5 +319,26 @@ public class SearchFragment extends BaseFragment {
         Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(mShakeListener != null){
+            mShakeListener.stop();
+        }
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mShakeListener == null){//init shake listener
+            mShakeListener = new ShakeListener(mContext);
+            mShakeListener.setOnShakeListener(new ShakeListener.OnShakeListener() {
+                @Override
+                public void onShake() {
+                    loadKeyword();
+                }
+            });
+        }
+        mShakeListener.start();
+    }
 }

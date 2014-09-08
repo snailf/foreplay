@@ -54,9 +54,9 @@
         >
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="@dimen/index_item_logo_width"
+            android:layout_width="@dimen/index_item_btn_height"
             android:layout_height="@dimen/index_item_btn_height"
-            android:background="@drawable/header_menu"
+            android:background="@drawable/foreplay"
             android:layout_gravity="center"
             />
         <TextView

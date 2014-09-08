@@ -1,6 +1,7 @@
 package cc.dingding.snail.forepaly.app.activitys;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,20 +9,27 @@ import android.view.View;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Date;
 import java.util.LinkedList;
 
+import cc.dingding.snail.forepaly.app.MainApplication;
 import cc.dingding.snail.forepaly.app.R;
 import cc.dingding.snail.forepaly.app.adapters.CaseAppAdapter;
 import cc.dingding.snail.forepaly.app.cache.SharedCache;
+import cc.dingding.snail.forepaly.app.config.Config;
 import cc.dingding.snail.forepaly.app.config.JsonConfig;
 import cc.dingding.snail.forepaly.app.config.UrlConfig;
+import cc.dingding.snail.forepaly.app.controllers.CommentsFooterController;
 import cc.dingding.snail.forepaly.app.controllers.CommonHeaderController;
 import cc.dingding.snail.forepaly.app.factorys.Json2List;
+import cc.dingding.snail.forepaly.app.helper.umeng.UmengHelper;
 import cc.dingding.snail.forepaly.app.models.CaseModel;
 import cc.dingding.snail.forepaly.app.models.CommentsModel;
 import cc.dingding.snail.forepaly.app.network.PostDataTask;
 import cc.dingding.snail.forepaly.app.network.PostParameter;
+import cc.dingding.snail.forepaly.app.tasks.SpliceBitmapTask;
 import cc.dingding.snail.forepaly.app.utils.DeviceUtils;
+import cc.dingding.snail.forepaly.app.utils.StringUtil;
 import cc.dingding.snail.forepaly.app.views.CustomDialog;
 import cc.dingding.snail.forepaly.app.views.xlist.XListView;
 
@@ -32,6 +40,7 @@ import cc.dingding.snail.forepaly.app.views.xlist.XListView;
 public class CaseAppActivity extends BaseActivity {
 
     private CommonHeaderController mCommonHeaderController = null;
+    private CommentsFooterController mCommentsFooterController = null;
 
     private View mView = null;
     private CaseModel mCaseModel = null;
@@ -68,7 +77,7 @@ public class CaseAppActivity extends BaseActivity {
         mContext = this;
         mView = findViewById(R.id.parent);
         mCaseModel = SharedCache.gCurrentCase;
-
+        //header
         mCommonHeaderController = new CommonHeaderController(this, mView, mCaseModel.getName());
         mCommonHeaderController.setRightBtn(R.drawable.timeline_share);
         mCommonHeaderController.setLeftBtn(R.drawable.btn_back);
@@ -83,9 +92,35 @@ public class CaseAppActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         Log.e("test", "shared");
+                        if(mCaseModel.getImages() == null){
+                            popMessage("暂无图片可分享...");
+                            return;
+                        }
+
+                        if(mCustomDialog == null){
+                            mCustomDialog = new CustomDialog(mContext, CustomDialog.DIALOG_THEME_WAIT_NOT_CANCEL);
+                        }
+                        mCustomDialog.show();
+                        new SpliceBitmapTask(mCaseModel.getImages(), new SpliceBitmapTask.OnSpliceFinishedListener() {
+                            @Override
+                            public void onFinished(Bitmap bitmap) {
+                                UmengHelper.getInstance().share(mContext, mCaseModel, bitmap);
+                                mCustomDialog.cancel();
+                            }
+                        }).start();
                     }
                 }
         );
+        //评论栏
+        mCommentsFooterController = new CommentsFooterController(this, mView);
+        mCommentsFooterController.setOnCommitSuccessedListener(new CommentsFooterController.OnCommitSuccessedListener() {
+            @Override
+            public void onCommitSuccessed(CommentsModel commentsModel) {
+                mCommentsList.add(commentsModel);
+                mCaseAppAdapter.notifyDataSetChanged();
+            }
+        });
+
         mCustomDialog = new CustomDialog(mContext, CustomDialog.DIALOG_THEME_WAIT_NOT_CANCEL);
         //xlistview
         mXListView = (XListView) mView.findViewById(R.id.xlistview);
@@ -93,6 +128,10 @@ public class CaseAppActivity extends BaseActivity {
         mXListView.setPullLoadEnable(true);
         mCaseAppAdapter = new CaseAppAdapter(mContext, mCommentsList);
         mXListView.setAdapter(mCaseAppAdapter);
+
+        String history = mCaseModel.getId() + Config.USER_HISTORY_ITEM_GAP + StringUtil.getDate(new Date())+ Config.USER_HISTORY_ITEM_GAP + "1";
+        MainApplication.getInstance().addUserHistory(history);
+
     }
 
     private void loadData(final boolean needClear){

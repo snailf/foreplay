@@ -20,12 +20,12 @@ import cc.dingding.snail.forepaly.app.models.CaseModel;
 public class UmengHelper {
 
     private UMSocialService mController;
-    private UmengHelper INSTANCE = null;
+    private static UmengHelper INSTANCE = null;
     private UmengHelper(){
         mController = UMServiceFactory.getUMSocialService("com.umeng.share");
     }
 
-    public UmengHelper getInstance(){
+    public static UmengHelper getInstance(){
         if(INSTANCE == null){
             INSTANCE = new UmengHelper();
         }

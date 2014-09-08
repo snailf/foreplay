@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,6 +57,41 @@ public class StringUtil {
         StringBuffer sb = new StringBuffer(idCard);
         sb.replace(6, 16, "**********");
         return sb.toString();
+    }
+
+    /**
+     * 常用的格式化日期
+     * @param date Date
+     * @return String
+     */
+    public static String getDate(java.util.Date date, String format) {
+        String result = "";
+        if(date != null) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat(format);
+                result = sdf.format(date);
+            } catch(Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return  result;
+    }
+    /**
+     * 常用的格式化日期
+     * @param date Date
+     * @return String
+     */
+    public static String getDate(java.util.Date date) {
+        String result = "";
+        if(date != null) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                result = sdf.format(date);
+            } catch(Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return  result;
     }
 }
 

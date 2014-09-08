@@ -79,7 +79,7 @@
     <!-- gallery -->
     <dimen name="gallery_default_size">100dip</dimen>
     <dimen name="gallery_gap">8dip</dimen>
-    <dimen name="gallery_app_gap">100dip</dimen>
+    <dimen name="gallery_app_gap">1dip</dimen>
     <!-- case_app list -->
     <dimen name="case_app_list_left_width">50dip</dimen>
     <dimen name="case_app_list_left_item_width">10dip</dimen>
@@ -121,5 +121,10 @@
 
 
     <!-- login -->
-    <dimen name="login_logo_size">100dip</dimen>
+    <dimen name="login_logo_width">126dip</dimen>
+    <dimen name="login_logo_height">100dip</dimen>
+
+
+    <!-- search -->
+    <dimen name="search_margin_size">140dip</dimen>
 </resources>

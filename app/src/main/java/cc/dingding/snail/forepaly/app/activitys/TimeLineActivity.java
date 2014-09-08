@@ -39,8 +39,10 @@ public class TimeLineActivity extends BaseActivity {
 
     private CustomDialog mCustomDialog = null;
 
-    private LinkedList<CaseModel> mCaseList = null;
+    private LinkedList<CaseModel> mCaseList = new LinkedList<CaseModel>();;
     private int mPage = 1;
+
+    private TimeLineAdapter mTimeLineAdapter = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +69,7 @@ public class TimeLineActivity extends BaseActivity {
                         if(mCaseList.size() > 0){
                             String urls = mCaseList.getLast().getDownloadUrl();
                             if("".equals(urls)){
-                                popMessage("下载地址为空...");
+                                popMessage("此App暂未提供下载地址...");
                                 return;
                             }
                             Uri url = Uri.parse(urls);
@@ -78,6 +80,8 @@ public class TimeLineActivity extends BaseActivity {
             }
         );
         mCusListView = (CusListView) findViewById(R.id.listview);
+        mTimeLineAdapter = new TimeLineAdapter(mContext, mCaseList);
+        mCusListView.setAdapter(mTimeLineAdapter);
 
         if(DeviceUtils.isNetworkConnected(mContext)){
             // post 参数
@@ -95,8 +99,7 @@ public class TimeLineActivity extends BaseActivity {
                         if("0".equals(status)){     //success
                             String data = jsonObject.getString(JsonConfig.KEY_DATA);
                             mCaseList = Json2List.getCaseList(data, mCaseList);
-                            TimeLineAdapter caseAdapter = new TimeLineAdapter(mContext, mCaseList);
-                            mCusListView.setAdapter(caseAdapter);
+                            mTimeLineAdapter.notifyDataSetChanged();
                         }else{
                             popMessage("操作失败！");
                         }
@@ -114,5 +117,20 @@ public class TimeLineActivity extends BaseActivity {
         }else{
             popMessage("暂无网络链接!");
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //更新评论条数
+        if(SharedCache.haveComment && SharedCache.haveCommit){
+            if(mTimeLineAdapter != null){
+                if(mTimeLineAdapter.getOnCommitSuccessedListener() != null){
+                    mTimeLineAdapter.getOnCommitSuccessedListener().onSuccessed();
+                }
+            }
+        }
+        SharedCache.haveComment = false;
+        SharedCache.haveCommit = false;
     }
 }

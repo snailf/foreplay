@@ -9,11 +9,12 @@ public class CommentsModel {
     private String comments = null;
     private String avatar = null;
     private String nick = null;
-
-    public CommentsModel(String id, String times, String comments, String avatar, String nick){
+    private String approveCount = "0";
+    public CommentsModel(String id, String times, String comments,String approveCount, String avatar, String nick){
         setId(id);
         setTimes(times);
         setComments(comments);
+        setApproveCount(approveCount);
         setAvatar(avatar);
         setNick(nick);
     }
@@ -28,6 +29,10 @@ public class CommentsModel {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public void setApproveCount(String approveCount) {
+        this.approveCount = approveCount;
     }
 
     public void setAvatar(String avatar) {
@@ -48,6 +53,10 @@ public class CommentsModel {
 
     public String getComments() {
         return comments;
+    }
+
+    public String getApproveCount() {
+        return approveCount;
     }
 
     public String getAvatar() {

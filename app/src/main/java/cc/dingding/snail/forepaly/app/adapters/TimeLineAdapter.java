@@ -3,6 +3,7 @@ package cc.dingding.snail.forepaly.app.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,10 +30,12 @@ import cc.dingding.snail.forepaly.app.config.JsonConfig;
 import cc.dingding.snail.forepaly.app.config.UrlConfig;
 import cc.dingding.snail.forepaly.app.helper.bitmap.AsyncBitmapLoader;
 import cc.dingding.snail.forepaly.app.helper.bitmap.model.ImageModel;
+import cc.dingding.snail.forepaly.app.helper.umeng.UmengHelper;
 import cc.dingding.snail.forepaly.app.models.CaseModel;
 import cc.dingding.snail.forepaly.app.models.ImageUrlModel;
 import cc.dingding.snail.forepaly.app.network.PostDataTask;
 import cc.dingding.snail.forepaly.app.network.PostParameter;
+import cc.dingding.snail.forepaly.app.tasks.SpliceBitmapTask;
 import cc.dingding.snail.forepaly.app.utils.DeviceUtils;
 import cc.dingding.snail.forepaly.app.views.CustomDialog;
 import cc.dingding.snail.forepaly.app.views.FavoriteView;
@@ -48,11 +51,23 @@ public class TimeLineAdapter extends BaseAdapter {
 
     private int mWidth = 0;
     private int mHeight = 0;
-
     private float mScale = (float) 1.5;         //640x960(3:2)
-
+    private TextView mTvCurrentComment = null;
     private CustomDialog mCustomDialog = null;
-
+    OnCommitSuccessedListener mOnCommitSuccessedListener = new OnCommitSuccessedListener() {
+        @Override
+        public void onSuccessed() {
+            if(mTvCurrentComment != null){
+                mTvCurrentComment.setText((Integer.valueOf(mTvCurrentComment.getText().toString()) + 1) + "");
+            }
+        }
+    };
+    public interface OnCommitSuccessedListener{
+        public void onSuccessed();
+    }
+    public OnCommitSuccessedListener getOnCommitSuccessedListener(){
+        return mOnCommitSuccessedListener;
+    }
     public TimeLineAdapter(Context context, LinkedList<CaseModel> list){
         mContext = context;
         mCaseList = list;
@@ -123,7 +138,7 @@ public class TimeLineAdapter extends BaseAdapter {
         //点赞评论数
         final TextView approve_count = (TextView) view.findViewById(R.id.approve_count);
         approve_count.setText(caseModel.getApproves());
-        TextView comment_count = (TextView) view.findViewById(R.id.comment_count);
+        final TextView comment_count = (TextView) view.findViewById(R.id.comment_count);
         comment_count.setText(caseModel.getComments());
         View approve = view.findViewById(R.id.approve);
         //点赞，评论
@@ -146,6 +161,7 @@ public class TimeLineAdapter extends BaseAdapter {
                     mContext.startActivity(new Intent(mContext, LoginActivity.class));
                 }else{
                     SharedCache.gCurrentCase = caseModel;
+                    mTvCurrentComment = comment_count;
                     mContext.startActivity(new Intent(mContext, CommentPopActivity.class));
                 }
             }
@@ -169,6 +185,23 @@ public class TimeLineAdapter extends BaseAdapter {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("test", "on shared");
+                if(caseModel.getImages() == null){
+                    popMessage("暂无图片可分享...");
+                    return;
+                }
+
+                if(mCustomDialog == null){
+                    mCustomDialog = new CustomDialog(mContext, CustomDialog.DIALOG_THEME_WAIT_NOT_CANCEL);
+                }
+                mCustomDialog.show();
+                new SpliceBitmapTask(caseModel.getImages(), new SpliceBitmapTask.OnSpliceFinishedListener() {
+                    @Override
+                    public void onFinished(Bitmap bitmap) {
+                        UmengHelper.getInstance().share(mContext, caseModel, bitmap);
+                        mCustomDialog.cancel();
+                    }
+                }).start();
 
             }
         });

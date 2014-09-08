@@ -109,14 +109,14 @@ public class CaseAppAdapter extends BaseAdapter {
                 });
                 mMyGallery = (MyGallery) view.findViewById(R.id.gallery);
                 mMyGallery.setSpacing((int) mContext.getResources().getDimension(R.dimen.gallery_app_gap));
-                GalleryAdapter galleryAdapter = new GalleryAdapter(mContext, caseModel, null);
+                CaseAppGalleryAdapter galleryAdapter = new CaseAppGalleryAdapter(mContext, caseModel);
                 mMyGallery.setAdapter(galleryAdapter);
                 mMyGallery.setOnItemSelectedListener(galleryAdapter.mOnSelectedListener);
 
             }
         }else{
             view =  mInflater.inflate(R.layout.item_comments_info, null);
-            CommentsModel commentsModel = mCommentsList.get(position);
+            final CommentsModel commentsModel = mCommentsList.get(position);
             if(position == 1){
                 TextView title = (TextView) view.findViewById(R.id.title_tv);
                 title.setVisibility(View.VISIBLE);
@@ -134,6 +134,22 @@ public class CaseAppAdapter extends BaseAdapter {
             ImageView avatarView = (ImageView) view.findViewById(R.id.avatar);
             new AsyncBitmapLoader(new ImageModel(commentsModel.getAvatar()), avatarView).start();
             Log.e("test", commentsModel.getAvatar());
+
+            //点赞评论数
+            final TextView approve_count = (TextView) view.findViewById(R.id.approve_count);
+            approve_count.setText(commentsModel.getApproveCount());
+            View approve = view.findViewById(R.id.approve);
+            //点赞，评论
+            approve.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if("0".equals(MainApplication.gUser.getUid())){
+                        mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                    }else{
+                        setApprove(commentsModel.getId(), approve_count);
+                    }
+                }
+            });
         }
 
         return view;
@@ -180,7 +196,51 @@ public class CaseAppAdapter extends BaseAdapter {
             popMessage("暂无网络链接!");
         }
     }
+    /**
+     * 点赞
+     * @param cid
+     * @param approveCountsView
+     */
+    private void setApprove(String cid, final TextView approveCountsView){
+        if(DeviceUtils.isNetworkConnected(mContext)){
+            // post 参数
+            PostParameter param = new PostParameter();
+            param.add("uid", MainApplication.gUser.getUid());
+            param.add("cid", cid);
 
+            PostDataTask postDataTask = new PostDataTask(UrlConfig.USER_ADD_COMMENTS_APPROVE, param) {
+                @Override
+                public void dealWithResult(String request) {
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(request);
+                        String status = jsonObject.getString(JsonConfig.KEY_STATUS);
+                        if("0".equals(status)){//success
+                            popMessage("点赞成功...");
+                            approveCountsView.setText((Integer.valueOf(approveCountsView.getText().toString()) + 1) + "");
+                        }else{
+                            String data = jsonObject.getString(JsonConfig.KEY_DATA);
+                            if("408".equals(data)){
+                                popMessage("您已经点赞，请勿重复操作...");
+                            }else{
+                                popMessage("点赞失败，请稍候再试...");
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    mCustomDialog.cancel();
+                }
+            };
+            if(mCustomDialog == null){
+                mCustomDialog = new CustomDialog(mContext, CustomDialog.DIALOG_THEME_WAIT_NOT_CANCEL);
+            }
+            mCustomDialog.show();
+            postDataTask.execute();
+        }else{
+            popMessage("暂无网络链接...");
+        }
+    }
     private void popMessage(String msg){
         Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
     }

@@ -15,7 +15,6 @@ abstract public class BaseController {
     public BaseController(Context context, View view) {
         mContext = context;
         mView = view;
-//        init();
     }
 
     /**

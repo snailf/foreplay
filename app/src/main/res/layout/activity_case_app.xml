@@ -30,6 +30,7 @@
     </RelativeLayout>
     <!-- 底部评论栏 -->
     <RelativeLayout
+        android:id="@+id/footer_comment"
         android:layout_width="match_parent"
         android:layout_height="@dimen/details_comments_bottom_height"
         android:background="@drawable/shape_corner_light_white"
@@ -63,11 +64,15 @@
                 android:layout_toLeftOf="@id/send"
                 >
                 <EditText
+                    android:id="@+id/comment_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="4dip"
-                    android:layout_marginRight="4dip"
+                    android:layout_marginLeft="8dip"
+                    android:layout_marginRight="8dip"
                     android:background="@color/transparent"
+                    android:textSize="@dimen/details_comments_font_size"
+                    android:textColor="@color/balck"
+                    android:hint="请输入评论..."
                     />
             </RelativeLayout>
         </RelativeLayout>

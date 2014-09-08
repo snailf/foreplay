@@ -22,6 +22,7 @@ public class MainApplication extends Application {
     private static MainApplication INSTANCE = null;
     public static String gTag = "0";
 
+    private boolean isUpdate = false;
 
     public static UserModel gUser = new UserModel();
     @Override
@@ -31,6 +32,8 @@ public class MainApplication extends Application {
         initUserInfo();
         if(!"0".equals(gUser.getUid())){
             getUserUpdateCounts();
+//            clearUserHistory();
+            uploadUserHistory();
         }
     }
 
@@ -133,4 +136,70 @@ public class MainApplication extends Application {
     public static boolean isLogin(){
         return (!"0".equals(gUser.getUid()));
     }
+
+    /**
+     * 清空用户浏览记录
+     */
+    private void clearUserHistory(){
+        SharedPreferences sp = getSharedPreferences(Config.PREFS_NAME, 0);
+        sp.edit().putString(Config.USER_HISTORY_KEY, "").commit();
+    }
+
+    /**
+     * 添加用户浏览记录
+     * @param temp
+     */
+    public void addUserHistory(String temp){
+        SharedPreferences sp = getSharedPreferences(Config.PREFS_NAME, 0);
+        String history = sp.getString(Config.USER_HISTORY_KEY, "");
+        history += ("".equals(history))? temp : (Config.USER_HISTORY_COUNT_GAP + temp);
+        sp.edit().putString(Config.USER_HISTORY_KEY, history).commit();
+    }
+    /**
+     * 上传用户浏览记录
+     */
+//    public void uploadUserHistory(final OnLoadListener onLoadListener){
+    public void uploadUserHistory(){
+        SharedPreferences sp = getSharedPreferences(Config.PREFS_NAME, 0);
+        String history = sp.getString(Config.USER_HISTORY_KEY, "");
+        if("".equals(history)){
+            return;
+        }
+        if(!isLogin()){
+            clearUserHistory();
+            return;
+        }
+        if(DeviceUtils.isNetworkConnected(this)){
+            // post 参数
+            PostParameter param = new PostParameter();
+            param.add("uid", gUser.getUid());
+            param.add("recall", "1");
+            param.add("history", history);
+            PostDataTask postDataTask = new PostDataTask(UrlConfig.SET_USER_HISTORY_URL, param) {
+                @Override
+                public void dealWithResult(String request) {
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(request);
+                        String status = jsonObject.getString(JsonConfig.KEY_STATUS);
+                        if("0".equals(status)){//success
+//                            String data = jsonObject.getString(JsonConfig.KEY_DATA);
+//                            if(!"null".equals(data)){
+//                                if(onLoadListener != null){
+//                                    onLoadListener.onLoaded(data);
+//                                }
+//                            }
+                            clearUserHistory();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    isUpdate = false;
+                }
+            };
+            postDataTask.execute();
+            isUpdate = true;
+        }
+    }
+
 }

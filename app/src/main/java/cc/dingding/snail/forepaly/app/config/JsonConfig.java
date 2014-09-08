@@ -21,7 +21,7 @@ public class JsonConfig {
     public static final String KEY_CASE_VERSION_TIME = "version_time";
     public static final String KEY_CASE_VERSION_NO = "version_no";
     public static final String KEY_CASE_VERSION_NAME = "version_name";
-    public static final String KEY_CASE_DOWNLOAD_URL = "download_url";
+    public static final String KEY_CASE_DOWNLOAD_URL = "download_android";
     public static final String KEY_CASE_IAMGES = "iamges";
     public static final String KEY_CASE_FAVORITE = "is_favorite";
     public static final String KEY_CASE_APPROVE_COUNT = "approve_count";
@@ -60,7 +60,8 @@ public class JsonConfig {
     public static final String KEY_COMMENTS_ID = "id";
     public static final String KEY_COMMENTS_TIME = "times";
     public static final String KEY_COMMENTS_CONTENT = "comments";
-    public static final String KEY_COMMENTS_USER_AVATAR = "user_nick";
+    public static final String KEY_COMMENTS_APPROVE_COUNT = "approve_count";
+    public static final String KEY_COMMENTS_USER_AVATAR = "user_avatar";
     public static final String KEY_COMMENTS_USER_NICK = "user_nick";
 
 }

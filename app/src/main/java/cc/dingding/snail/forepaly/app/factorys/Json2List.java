@@ -231,7 +231,7 @@ public class Json2List {
             result = new LinkedList<CommentsModel>();
         }
         if(result.size() == 0){//第一条数据占位，被app详情顶替
-            result.add(new CommentsModel("0", "0000-00-00 00:00:00", "null", "", ""));
+            result.add(new CommentsModel("0", "0000-00-00 00:00:00", "0", "null", "", ""));
         }
         if(jsonData != null){
             if(!"".equals(jsonData)){
@@ -244,9 +244,10 @@ public class Json2List {
                         String id = temp.getString(JsonConfig.KEY_COMMENTS_ID);
                         String times = temp.getString(JsonConfig.KEY_COMMENTS_TIME);
                         String comments = temp.getString(JsonConfig.KEY_COMMENTS_CONTENT);
+                        String approveCount = temp.getString(JsonConfig.KEY_COMMENTS_APPROVE_COUNT);
                         String avatar = temp.getString(JsonConfig.KEY_COMMENTS_USER_AVATAR);
                         String nick = temp.getString(JsonConfig.KEY_COMMENTS_USER_NICK);
-                        result.add(new CommentsModel(id, times, comments, avatar, nick));
+                        result.add(new CommentsModel(id, times, comments, approveCount, avatar, nick));
                     }
 
                 } catch (JSONException e) {

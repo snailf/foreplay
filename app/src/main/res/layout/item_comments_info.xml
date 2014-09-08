@@ -30,6 +30,7 @@
             android:layout_width="@dimen/details_comments_avatar_size"
             android:layout_height="match_parent"
             android:background="@color/transparent"
+            android:layout_marginLeft="10dip"
             >
             <ImageView
                 android:layout_width="@dimen/details_comments_avatar_size"
@@ -39,7 +40,6 @@
                 android:layout_centerInParent="true"
                 />
         </RelativeLayout>
-
         <TextView
             android:id="@+id/username"
             android:layout_width="wrap_content"
@@ -84,19 +84,37 @@
                     />
             </RelativeLayout>
             <RelativeLayout
-                android:id="@+id/favorite_rl"
-                android:layout_width="@dimen/detail_footer_bt_width"
+                android:id="@+id/approve"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@color/transparent"
                 android:layout_toLeftOf="@id/comments_rl"
+                android:layout_marginRight="6dip"
                 >
-                <cc.dingding.snail.forepaly.app.views.FavoriteView
-                    android:id="@+id/favorite"
-                    android:layout_width="@dimen/details_comments_icon_size"
-                    android:layout_height="@dimen/details_comments_icon_size"
-                    android:background="@drawable/favorite"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
                     android:layout_centerInParent="true"
-                    />
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_width="@dimen/details_comments_icon_size"
+                        android:layout_height="@dimen/details_comments_icon_size"
+                        android:background="@drawable/timeline_approve"
+                        android:layout_gravity="center_vertical"
+                        />
+                    <TextView
+                        android:id="@+id/approve_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/timeline_footer_image_size"
+                        android:text="0"
+                        android:textColor="@color/footer_text_color"
+                        android:layout_marginLeft="5dip"
+                        android:gravity="center"
+                        android:layout_gravity="center_vertical"
+                        />
+                </LinearLayout>
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
@@ -112,7 +130,6 @@
         android:maxLines="5"
         android:layout_marginLeft="@dimen/details_comments_margin_left"
         />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="1px"

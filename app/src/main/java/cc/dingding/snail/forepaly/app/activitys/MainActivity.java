@@ -92,8 +92,10 @@ public class MainActivity extends BaseFragmentActivity
 
     public void onSectionAttached(int number) {
         Log.e("test", "" + number);
+        if(MainApplication.CURRENT != 1){
+            onFooterClick(1);
+        }
         MainApplication.gTag = String.valueOf(number);
-        mFooterFragment.changeDisplayItem(1);
         mIndexFragment.onTagChecked(1);
     }
 

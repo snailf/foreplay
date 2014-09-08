@@ -11,6 +11,8 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import cc.dingding.snail.forepaly.app.MainApplication;
+import cc.dingding.snail.forepaly.app.R;
 import cc.dingding.snail.forepaly.app.utils.DeviceUtils;
 
 /**
@@ -26,6 +28,7 @@ public class RandomView extends View {
     private int mHeight = 60;
 
     private int mScreenWidth = 400;
+    private int mWhiteSpace = 150;
     private RandomButtonOnClickListener mRandomButtonOnClickListener = null;
     public void setRandomButtonOnClickListener(RandomButtonOnClickListener randomButtonOnClickListener){
         mRandomButtonOnClickListener = randomButtonOnClickListener;
@@ -51,6 +54,7 @@ public class RandomView extends View {
     private void init(Context context, AttributeSet attrs) {
         mButtonViews = new ArrayList<ButtonView>();
         mScreenWidth = DeviceUtils.deviceWidth(context);
+        mWhiteSpace = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_margin_size);
     }
 
     public void setButtonModels(List<ButtonModel> buttonModels){
