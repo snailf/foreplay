@@ -24,8 +24,6 @@
 -dontwarn com.tencent.weibo.sdk.**
 -dontwarn com.facebook.**
 
--libraryjars libs/SocialSDK_QQZone_2.jar
-
 -keep enum com.facebook.**
 -keepattributes Exceptions,InnerClasses,Signature
 -keepattributes *Annotation*
