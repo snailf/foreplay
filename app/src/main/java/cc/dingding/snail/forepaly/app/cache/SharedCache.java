@@ -1,15 +1,10 @@
 package cc.dingding.snail.forepaly.app.cache;
 
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 import cc.dingding.snail.forepaly.app.MainApplication;
 import cc.dingding.snail.forepaly.app.config.Config;
 import cc.dingding.snail.forepaly.app.models.CaseModel;
-import cc.dingding.snail.forepaly.app.utils.StringUtil;
 
 /**
  * Created by koudejian on 14-7-29.
@@ -34,18 +29,10 @@ public class SharedCache {
             SharedPreferences setting = MainApplication.getInstance().getSharedPreferences(Config.PREFS_NAME, 0);
             tagCache = setting.getString(tagKey, "");
             if("".equals(tagCache)){ //获取本地数据
-                AssetManager am =  MainApplication.getInstance().getAssets();
-                try {
-                    InputStream temp = am.open("tag_list.dat");
-                    tagCache = StringUtil.inputStream2String(temp);
-                    setTagCache(tagCache);
-                } catch (IOException e) {
-                    tagCache = tagTemp;
-                    e.printStackTrace();
-                }
+                tagCache = tagTemp;
+                setting.edit().putString(tagKey, tagCache).commit();
             }
         }
-
         return tagCache;
     }
 

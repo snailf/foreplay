@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -17,8 +18,6 @@ import android.widget.Toast;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import cc.dingding.snail.forepaly.app.MainApplication;
 import cc.dingding.snail.forepaly.app.R;
@@ -60,7 +59,8 @@ public class MainActivity extends BaseFragmentActivity
         mNavigationDrawerFragment = (NavigationDrawerFragment)getFragmentManager().findFragmentById(R.id.navigation_drawer);
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout)findViewById(R.id.drawer_layout));
-        mIndexFragment = new IndexFragment(mNavigationDrawerFragment);
+        mIndexFragment = new IndexFragment();
+        mIndexFragment.setNavigationDrawerFragment(mNavigationDrawerFragment);
         mPersonalFragment = new PersonalFragment();
         mSearchFragment = new SearchFragment();
 
@@ -104,7 +104,7 @@ public class MainActivity extends BaseFragmentActivity
         List<FooterDataModel> itemPairs = new ArrayList<FooterDataModel>();
         itemPairs.add(new FooterDataModel(R.drawable.foot_index_xml, R.drawable.footer_index_selected, "首页", false));
         itemPairs.add(new FooterDataModel(R.drawable.foot_search_xml, R.drawable.footer_search_selected, "搜索 ", false));
-        itemPairs.add(new FooterDataModel(R.drawable.foot_personal_xml, R.drawable.footer_personal_selected, "我的 ", true));
+        itemPairs.add(new FooterDataModel(R.drawable.foot_personal_xml, R.drawable.footer_personal_selected, "我的 ", false));
         return itemPairs;
     }
 
@@ -205,17 +205,15 @@ public class MainActivity extends BaseFragmentActivity
     private Boolean isGoingToExit = false;
 
     private void exitBy2Click() {
-        Timer tExit = null;
         if (isGoingToExit == false) {
             isGoingToExit = true; // 准备退出
             Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
-            tExit = new Timer();
-            tExit.schedule(new TimerTask() {
+            new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     isGoingToExit = false; // 取消退出
                 }
-            }, 2000);       // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
+            }, 2000);   // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
         } else {
             finish();
             System.exit(0);

@@ -215,6 +215,7 @@ public class SearchFragment extends BaseFragment {
                             if(!"null".equals(data)){
                                 mButtonModelList = Json2List.getSearchKeyList(data);
                                 mRandomView.setButtonModels(mButtonModelList);
+                                mRandomView.invalidate();
                             }
                         }else{
 
@@ -222,9 +223,15 @@ public class SearchFragment extends BaseFragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    if(mShakeListener != null){
-                        mShakeListener.start();
-                    }
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(mShakeListener != null){
+                                mShakeListener.start();
+                            }
+                        }
+                    }, 2000);
+
                 }
             };
             if(mShakeListener != null){

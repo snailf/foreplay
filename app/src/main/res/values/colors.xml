@@ -49,7 +49,7 @@
     <color name="comment_btn_text_white">#ffffffff</color>
     <color name="comment_btn_text_gray">#ff2f3535</color>
     <color name="comment_btn_green" >#ee4bd865</color>
-    <color name="comment_btn_green_selected" >#ee43b558</color>
+    <color name="comment_btn_green_selected" >#ee13b158</color>
     <color name="comment_btn_gray" >#eec0b5c3</color>
     <color name="comment_btn_gray_selected" >#ee808080</color>
 

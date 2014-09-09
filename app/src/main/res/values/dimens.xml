@@ -8,7 +8,8 @@
     <dimen name="navigation_drawer_width">140dip</dimen>
 
     <!-- header -->
-    <dimen name="header_title_font_size" >14dip</dimen>
+    <dimen name="header_title_font_size" >20dip</dimen>
+    <dimen name="header_title_btn_size">14dip</dimen>
     <dimen name="header_height" >54dip</dimen>
     <dimen name="header_btn_width" >70dip</dimen>
     <dimen name="header_ibtn_width" >25dip</dimen>
@@ -126,5 +127,6 @@
 
 
     <!-- search -->
-    <dimen name="search_margin_size">140dip</dimen>
+    <dimen name="search_margin_size">100dip</dimen>
+    <dimen name="search_margin_top">30dip</dimen>
 </resources>

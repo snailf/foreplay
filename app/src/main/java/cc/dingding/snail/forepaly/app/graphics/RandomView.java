@@ -10,6 +10,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import cc.dingding.snail.forepaly.app.MainApplication;
 import cc.dingding.snail.forepaly.app.R;
@@ -24,9 +25,10 @@ public class RandomView extends View {
     private List<ButtonView> mButtonViews = null;
 
     private int mLength = 0;
-    private int mMargin = 10;
+    private int mMargin = 20;
     private int mHeight = 60;
-
+    private int mWidth = 80;
+    private int mMarginTop = 60;
     private int mScreenWidth = 400;
     private int mWhiteSpace = 150;
     private RandomButtonOnClickListener mRandomButtonOnClickListener = null;
@@ -55,16 +57,37 @@ public class RandomView extends View {
         mButtonViews = new ArrayList<ButtonView>();
         mScreenWidth = DeviceUtils.deviceWidth(context);
         mWhiteSpace = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_margin_size);
+        mMarginTop = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_margin_top);
+//        mWhiteSpace = 180;
     }
 
     public void setButtonModels(List<ButtonModel> buttonModels){
+        mButtonViews.clear();
         mButtonModels = buttonModels;
         mLength = mButtonModels.size();
-        int left = (mScreenWidth - 80) / 2;
+        int line = 0;
+        int offset = 0;
         //button 位置
+        Random random =new Random();
         for(int i = 0; i < mLength; i++){
             ButtonView  buttonView = new ButtonView(this, mButtonModels.get(i));
-            buttonView.setRectF(new RectF( left , 40 + i * (mHeight + mMargin), left + 80, 40 + (i+1) * (mHeight + mMargin) - mMargin));
+            int width = mWidth + random.nextInt(mWidth);
+            int available = mScreenWidth - mWhiteSpace - width - offset;
+            if(available < 0){//不在一行内
+                if(available + width > mWidth){
+                    width = available + width - mMargin;
+                }else {
+                    line++;
+                    offset = 0;
+                }
+            }
+            int left = offset + random.nextInt(mMargin) + mWhiteSpace/2;
+            int right = offset + width + mWhiteSpace/2;
+            offset += width + mMargin;
+            int top = mMarginTop + line * (mHeight + mMargin) + random.nextInt(mMargin);
+            int bottom = top + mHeight;
+
+            buttonView.setRectF(new RectF(left, top, right, bottom));
             mButtonViews.add(buttonView);
         }
     }

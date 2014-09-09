@@ -71,8 +71,7 @@ public class IndexFragment extends BaseFragment {
         }
 
     }
-
-    public IndexFragment(NavigationDrawerFragment navigationDrawerFragment){
+    public void setNavigationDrawerFragment(NavigationDrawerFragment navigationDrawerFragment){
         mNavigationDrawerFragment = navigationDrawerFragment;
     }
     private final XListView.IXListViewListener mIXListViewListener = new XListView.IXListViewListener() {

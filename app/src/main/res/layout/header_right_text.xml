@@ -32,8 +32,8 @@
             android:gravity="center"
             android:singleLine="true"
             android:text="退出登录"
-            android:textColor="@color/timeline_green"
-            android:textSize="@dimen/header_title_font_size" />
+            android:textColor="@color/personal_header_btn_color"
+            android:textSize="@dimen/header_title_btn_size" />
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
