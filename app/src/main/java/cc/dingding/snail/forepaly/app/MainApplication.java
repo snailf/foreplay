@@ -53,6 +53,8 @@ public class MainApplication extends Application {
         sp.edit().putString("uid", user.getUid()).commit();
         sp.edit().putString("nick", user.getNick()).commit();
         sp.edit().putString("avatar", user.getAvatar()).commit();
+        //更新用户配置
+        getInstance().getUserUpdateCounts();
     }
     public static void logout(){
         gUser.clear();
@@ -65,6 +67,7 @@ public class MainApplication extends Application {
         sp.edit().putString("history_counts", gUser.getHistoryCounts()).commit();
         sp.edit().putString("favorite_counts", gUser.getFavoriteCounts()).commit();
         sp.edit().putString("comments_counts", gUser.getCommentscounts()).commit();
+
     }
 
     /**

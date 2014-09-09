@@ -90,6 +90,7 @@ public class RandomView extends View {
             buttonView.setRectF(new RectF(left, top, right, bottom));
             mButtonViews.add(buttonView);
         }
+        invalidate();
     }
     @Override
     protected void onDraw(Canvas canvas) {

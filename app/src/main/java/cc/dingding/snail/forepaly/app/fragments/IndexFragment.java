@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import cc.dingding.snail.forepaly.app.helper.bitmap.AsyncBitMapLoaderManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -175,6 +176,7 @@ public class IndexFragment extends BaseFragment {
                 }
             };
             mCustomDialog.show();
+            AsyncBitMapLoaderManager.getInstance().clear();
             postDataTask.execute();
         }
     }

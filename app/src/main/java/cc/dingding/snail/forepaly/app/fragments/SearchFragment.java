@@ -15,6 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cc.dingding.snail.forepaly.app.cache.SharedCache;
+import cc.dingding.snail.forepaly.app.helper.bitmap.AsyncBitMapLoaderManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -57,7 +59,7 @@ public class SearchFragment extends BaseFragment {
     private int mCurrentPage = 1;
     private LinkedList<CaseModel> mCaseList = new LinkedList<CaseModel>();;
     private CaseAdapter mCaseAdapter = null;
-    private String mKeywordStr = "[{\"id\":\"1\",\"name\":\"\\u5065\\u5eb7\",\"colors\":\"#0f9823\"},{\"id\":\"2\",\"name\":\"\\u624b\\u673a\",\"colors\":\"#0000ff\"},{\"id\":\"3\",\"name\":\"\\u97f3\\u4e50\",\"colors\":\"#00ffff\"},{\"id\":\"4\",\"name\":\"\\u7535\\u89c6\",\"colors\":\"#ffffff\"},{\"id\":\"5\",\"name\":\"\\u5fae\",\"colors\":\"#ff0000\"},{\"id\":\"6\",\"name\":\"\\u7a7a\\u95f4\",\"colors\":\"#00ff00\"},{\"id\":\"7\",\"name\":\"QQ\",\"colors\":\"#ff0056\"}]";
+//    private String mKeywordStr = "[{\"id\":\"1\",\"name\":\"\\u5065\\u5eb7\",\"colors\":\"#0f9823\"},{\"id\":\"2\",\"name\":\"\\u624b\\u673a\",\"colors\":\"#0000ff\"},{\"id\":\"3\",\"name\":\"\\u97f3\\u4e50\",\"colors\":\"#00ffff\"},{\"id\":\"4\",\"name\":\"\\u7535\\u89c6\",\"colors\":\"#ffffff\"},{\"id\":\"5\",\"name\":\"\\u5fae\",\"colors\":\"#ff0000\"},{\"id\":\"6\",\"name\":\"\\u7a7a\\u95f4\",\"colors\":\"#00ff00\"},{\"id\":\"7\",\"name\":\"QQ\",\"colors\":\"#ff0056\"}]";
     private TextViews mTvMsg = null;
 
     private ShakeListener mShakeListener = null;
@@ -194,9 +196,6 @@ public class SearchFragment extends BaseFragment {
                 }
             }
         });
-        mButtonModelList = Json2List.getSearchKeyList(mKeywordStr);
-        mRandomView.setButtonModels(mButtonModelList);
-        loadKeyword();
 
         return mView;
     }
@@ -213,9 +212,9 @@ public class SearchFragment extends BaseFragment {
                         if("0".equals(status)){//success
                             String data = jsonObject.getString(JsonConfig.KEY_DATA);
                             if(!"null".equals(data)){
+                                SharedCache.setKeywordCache(data);
                                 mButtonModelList = Json2List.getSearchKeyList(data);
                                 mRandomView.setButtonModels(mButtonModelList);
-                                mRandomView.invalidate();
                             }
                         }else{
 
@@ -296,6 +295,7 @@ public class SearchFragment extends BaseFragment {
                 mCustomDialog = new CustomDialog(mContext, CustomDialog.DIALOG_THEME_WAIT_NOT_CANCEL);
             }
             mCustomDialog.show();
+            AsyncBitMapLoaderManager.getInstance().clear();
             postDataTask.execute();
         }else{
             popMessage("暂无网络链接...");
@@ -337,6 +337,9 @@ public class SearchFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        mButtonModelList = Json2List.getSearchKeyList(SharedCache.getKeywordCache());
+        mRandomView.setButtonModels(mButtonModelList);
+
         if(mShakeListener == null){//init shake listener
             mShakeListener = new ShakeListener(mContext);
             mShakeListener.setOnShakeListener(new ShakeListener.OnShakeListener() {
