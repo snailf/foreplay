@@ -20,4 +20,15 @@ public class PostParameter {
     public List <NameValuePair> getParas(){
         return this.params;
     }
+
+    public String getUid(){
+        String uid = "0";
+        for (int i = 0; i < params.size(); i++) {
+            NameValuePair temp = params.get(i);
+            if("uid".equals(temp.getName())){
+                uid = temp.getValue();
+            }
+        }
+        return uid;
+    }
 }

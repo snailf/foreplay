@@ -1,13 +1,19 @@
 package cc.dingding.snail.forepaly.app.utils;
 
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import cc.dingding.snail.forepaly.app.helper.bitmap.utils.MD5;
 
 public class StringUtil {
 
@@ -85,13 +91,51 @@ public class StringUtil {
         String result = "";
         if(date != null) {
             try {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                result = sdf.format(date);
+                SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+                result = dff.format(date);
             } catch(Exception ex) {
                 ex.printStackTrace();
             }
         }
         return  result;
+    }
+
+    /**
+     * 常用的格式化日期
+     * @param date Date
+     * @return String
+     */
+    public static String getDate() {
+        String result = "";
+        Date date = new Date();
+        if(date != null) {
+            try {
+                SimpleDateFormat dff = new SimpleDateFormat("yyyyMMddHHmm");
+                dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+                result = dff.format(date);
+            } catch(Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return  result;
+    }
+    /**
+     * 用户验证
+     * @param url
+     * @return
+     */
+    public static String getApiIdentityToken(String url, String uid){
+        String[] array = url.split("r=");
+        String uri = "";
+        for(String item: array){
+            uri = item;
+        }
+        String[] arrays = uri.split("&");
+        uri = arrays[0];
+        String temp = uid + uri.toLowerCase() + getDate();
+        Log.e("test", temp);
+        return MD5.md5Encode(temp).substring(24);
     }
 }
 

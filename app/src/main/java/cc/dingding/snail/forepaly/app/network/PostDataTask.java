@@ -15,6 +15,8 @@ import org.apache.http.util.EntityUtils;
 
 import java.util.List;
 
+import cc.dingding.snail.forepaly.app.utils.StringUtil;
+
 public abstract class PostDataTask extends AsyncTask<Void, Void, Void> {
     private String mResult = "";
     private String mUrl = "";
@@ -24,7 +26,7 @@ public abstract class PostDataTask extends AsyncTask<Void, Void, Void> {
         // TODO Auto-generated constructor stub
         this.mUrl = urls;
         this.mPostParameter = params;
-        // this.mPostParameter.add("token", UserVerification.getUserIdentityStr(mUrl));
+        this.mPostParameter.add("user_token", StringUtil.getApiIdentityToken(mUrl, params.getUid()));
     }
 
     @Override
