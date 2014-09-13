@@ -31,6 +31,7 @@ public class RandomView extends View {
     private int mMarginTop = 60;
     private int mScreenWidth = 400;
     private int mWhiteSpace = 150;
+    private int mTextSize = 22;
     private RandomButtonOnClickListener mRandomButtonOnClickListener = null;
     public void setRandomButtonOnClickListener(RandomButtonOnClickListener randomButtonOnClickListener){
         mRandomButtonOnClickListener = randomButtonOnClickListener;
@@ -58,6 +59,12 @@ public class RandomView extends View {
         mScreenWidth = DeviceUtils.deviceWidth(context);
         mWhiteSpace = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_margin_size);
         mMarginTop = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_margin_top);
+        mMargin = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_margin);
+        mHeight = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_height);
+        mWidth = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_width);
+        mMarginTop = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_margin_top);
+        mWhiteSpace = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_white_space);
+        mTextSize = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_text_size);
 //        mWhiteSpace = 180;
     }
 
@@ -70,7 +77,7 @@ public class RandomView extends View {
         //button 位置
         Random random =new Random();
         for(int i = 0; i < mLength; i++){
-            ButtonView  buttonView = new ButtonView(this, mButtonModels.get(i));
+            ButtonView  buttonView = new ButtonView(this, mButtonModels.get(i).setTextSize(mTextSize));
             int width = mWidth + random.nextInt(mWidth);
             int available = mScreenWidth - mWhiteSpace - width - offset;
             if(available < 0){//不在一行内
