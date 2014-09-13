@@ -23,6 +23,7 @@
 
     <!-- login -->
     <color name="login_text_color">#ff614633</color>
+    <color name="login_text_color_pressed">#ffbb5f2c</color>
     <color name="login_bg">#fffbfbfb</color>
 
     <!-- black_light -->

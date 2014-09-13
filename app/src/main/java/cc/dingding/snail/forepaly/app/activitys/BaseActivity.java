@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.umeng.analytics.MobclickAgent;
+
 import cc.dingding.snail.forepaly.app.R;
 import cc.dingding.snail.forepaly.app.helper.bitmap.AsyncBitMapLoaderManager;
 
@@ -24,11 +26,13 @@ public class BaseActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onPause(this);
     }
     /**
      * 点击任意位置关闭软键盘

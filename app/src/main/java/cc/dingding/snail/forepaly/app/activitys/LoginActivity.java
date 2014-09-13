@@ -155,7 +155,11 @@ public class LoginActivity extends BaseActivity {
                             String data = jsonObject.getString(JsonConfig.KEY_DATA);
                             JSONObject obj = new JSONObject(data);
                             String uid = obj.getString(JsonConfig.KEY_LOGIN_ID);
+                            String historyCounts = obj.getString(JsonConfig.KEY_USER_HISTORY_COUNTS);
+                            String favoriteCounts = obj.getString(JsonConfig.KEY_USER_FAVORITE_COUNTS);
+                            String commentsCounts = obj.getString(JsonConfig.KEY_USER_COMMENTS_COUNTS);
                             MainApplication.login(new UserModel(openid, uid, nick, avatar));
+                            MainApplication.getInstance().storageUserCounts(historyCounts, favoriteCounts, commentsCounts);
                             LoginActivity.this.finish();
                         }else{
                             popMessage("登录失败！");

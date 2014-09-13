@@ -77,11 +77,13 @@ public class RandomView extends View {
         //button 位置
         Random random =new Random();
         for(int i = 0; i < mLength; i++){
-            ButtonView  buttonView = new ButtonView(this, mButtonModels.get(i).setTextSize(mTextSize));
-            int width = mWidth + random.nextInt(mWidth);
+            ButtonModel buttonModel = mButtonModels.get(i).setTextSize(mTextSize);
+            ButtonView  buttonView = new ButtonView(this, buttonModel);
+            int minWidth = (buttonModel.getText().length() > 2) ? mWidth*3/2 : mWidth;
+            int width = minWidth + random.nextInt(mWidth);
             int available = mScreenWidth - mWhiteSpace - width - offset;
             if(available < 0){//不在一行内
-                if(available + width > mWidth){
+                if(available + width > minWidth){
                     width = available + width - mMargin;
                 }else {
                     line++;
@@ -93,7 +95,6 @@ public class RandomView extends View {
             offset += width + mMargin;
             int top = mMarginTop + line * (mHeight + mMargin) + random.nextInt(mMargin);
             int bottom = top + mHeight;
-
             buttonView.setRectF(new RectF(left, top, right, bottom));
             mButtonViews.add(buttonView);
         }

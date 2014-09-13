@@ -23,7 +23,6 @@ import cc.dingding.snail.forepaly.app.factorys.Json2List;
 import cc.dingding.snail.forepaly.app.network.PostDataTask;
 import cc.dingding.snail.forepaly.app.network.PostParameter;
 import cc.dingding.snail.forepaly.app.utils.DeviceUtils;
-import cc.dingding.snail.forepaly.app.views.CustomDialog;
 import cc.dingding.snail.forepaly.app.views.xlist.XListView;
 
 
@@ -43,12 +42,12 @@ public class PersonalTabPagerAdapter extends PagerAdapter {
     private final XListView[] mXListViews = {null, null, null};
     LayoutInflater mInflater = null;
     private List<String> mCaseUrls = null;
-    private CustomDialog mCustomDialog = null;
+//    private CustomDialog mCustomDialog = null;
     public PersonalTabPagerAdapter(Context context, List<String> list) {
         this.mContext = context;
         mListViews = new ArrayList<View>();
         mCaseUrls = list;
-        mCustomDialog = new CustomDialog(mContext, CustomDialog.DIALOG_THEME_WAIT_NOT_CANCEL);
+//        mCustomDialog = new CustomDialog(mContext, CustomDialog.DIALOG_THEME_WAIT_NOT_CANCEL);
         initView();
     }
 
@@ -175,11 +174,11 @@ public class PersonalTabPagerAdapter extends PagerAdapter {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    mCustomDialog.cancel();
+//                    mCustomDialog.cancel();
                     stopLoad();
                 }
             };
-            mCustomDialog.show();
+//            mCustomDialog.show();
             postDataTask.execute();
         }else{
             popMessage("暂无网络链接...");

@@ -9,14 +9,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import cc.dingding.snail.forepaly.app.cache.SharedCache;
-import cc.dingding.snail.forepaly.app.helper.bitmap.AsyncBitMapLoaderManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,12 +26,14 @@ import java.util.List;
 import cc.dingding.snail.forepaly.app.MainApplication;
 import cc.dingding.snail.forepaly.app.R;
 import cc.dingding.snail.forepaly.app.adapters.CaseAdapter;
+import cc.dingding.snail.forepaly.app.cache.SharedCache;
 import cc.dingding.snail.forepaly.app.config.JsonConfig;
 import cc.dingding.snail.forepaly.app.config.UrlConfig;
 import cc.dingding.snail.forepaly.app.factorys.Json2List;
 import cc.dingding.snail.forepaly.app.graphics.ButtonModel;
 import cc.dingding.snail.forepaly.app.graphics.RandomButtonOnClickListener;
 import cc.dingding.snail.forepaly.app.graphics.RandomView;
+import cc.dingding.snail.forepaly.app.helper.bitmap.AsyncBitMapLoaderManager;
 import cc.dingding.snail.forepaly.app.listeners.ShakeListener;
 import cc.dingding.snail.forepaly.app.models.CaseModel;
 import cc.dingding.snail.forepaly.app.network.PostDataTask;
@@ -59,7 +61,6 @@ public class SearchFragment extends BaseFragment {
     private int mCurrentPage = 1;
     private LinkedList<CaseModel> mCaseList = new LinkedList<CaseModel>();;
     private CaseAdapter mCaseAdapter = null;
-//    private String mKeywordStr = "[{\"id\":\"1\",\"name\":\"\\u5065\\u5eb7\",\"colors\":\"#0f9823\"},{\"id\":\"2\",\"name\":\"\\u624b\\u673a\",\"colors\":\"#0000ff\"},{\"id\":\"3\",\"name\":\"\\u97f3\\u4e50\",\"colors\":\"#00ffff\"},{\"id\":\"4\",\"name\":\"\\u7535\\u89c6\",\"colors\":\"#ffffff\"},{\"id\":\"5\",\"name\":\"\\u5fae\",\"colors\":\"#ff0000\"},{\"id\":\"6\",\"name\":\"\\u7a7a\\u95f4\",\"colors\":\"#00ff00\"},{\"id\":\"7\",\"name\":\"QQ\",\"colors\":\"#ff0056\"}]";
     private TextViews mTvMsg = null;
 
     private ShakeListener mShakeListener = null;
@@ -122,8 +123,7 @@ public class SearchFragment extends BaseFragment {
         @Override
         public void onLoadMore() {
             Log.e("test", "loadmore");
-            loadData(mCurrentPage + 1, true);
-            mCustomDialog.show();
+            loadData(mCurrentPage++, true);
         }
     };
     @Override
@@ -134,28 +134,21 @@ public class SearchFragment extends BaseFragment {
         mSearchView = mView.findViewById(R.id.search_result_rl);
         mSearchView.setVisibility(View.GONE);
 
-
         mEtKey = (EditText) mView.findViewById(R.id.key);
         mEtKey.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
             public void afterTextChanged(Editable s) {
                 String key = mEtKey.getText().toString();
                 if(!"".equals(key)){
                     if(mSearchView.getVisibility() == View.INVISIBLE){
                         switchView(true);
-//                        mSearchView.setVisibility(View.VISIBLE);
                     }
                 }else{
                     switchView(false);
-//                    mSearchView.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -170,7 +163,6 @@ public class SearchFragment extends BaseFragment {
                     loadData(1);
                 }else{
                     switchView(false);
-//                    mSearchView.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -196,7 +188,6 @@ public class SearchFragment extends BaseFragment {
                 }
             }
         });
-
         return mView;
     }
     private void loadKeyword(){
@@ -214,10 +205,20 @@ public class SearchFragment extends BaseFragment {
                             if(!"null".equals(data)){
                                 SharedCache.setKeywordCache(data);
                                 mButtonModelList = Json2List.getSearchKeyList(data);
-                                mRandomView.setButtonModels(mButtonModelList);
+                                Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in_xml);
+                                animation.setAnimationListener(new Animation.AnimationListener() {
+                                    @Override
+                                    public void onAnimationStart(Animation animation) {}
+                                    @Override
+                                    public void onAnimationEnd(Animation animation) {
+                                        mRandomView.setButtonModels(mButtonModelList);
+                                        mRandomView.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_out_xml));
+                                    }
+                                    @Override
+                                    public void onAnimationRepeat(Animation animation) {}
+                                });
+                                mRandomView.startAnimation(animation);
                             }
-                        }else{
-
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -237,8 +238,6 @@ public class SearchFragment extends BaseFragment {
                 mShakeListener.stop();
             }
             postDataTask.execute();
-        }else{//加载缓存
-
         }
     }
     private void loadData(int page){
@@ -271,7 +270,6 @@ public class SearchFragment extends BaseFragment {
                                 if(!flag && mCaseList != null){
                                     mCaseList.clear();
                                 }
-//                                mSearchView.setVisibility(View.VISIBLE);
                                 switchView(true);
                                 mCaseList = Json2List.getCaseList(data, mCaseList);
                                 mCaseAdapter.notifyDataSetChanged();
@@ -291,10 +289,9 @@ public class SearchFragment extends BaseFragment {
                     mXListView.stopRefresh();
                 }
             };
-            if(mCustomDialog == null){
-                mCustomDialog = new CustomDialog(mContext, CustomDialog.DIALOG_THEME_WAIT_NOT_CANCEL);
+            if(!flag){
+                mCustomDialog.show();
             }
-            mCustomDialog.show();
             AsyncBitMapLoaderManager.getInstance().clear();
             postDataTask.execute();
         }else{

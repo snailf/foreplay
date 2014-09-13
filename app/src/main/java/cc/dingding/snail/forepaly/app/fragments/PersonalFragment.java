@@ -84,6 +84,13 @@ public class PersonalFragment extends BaseFragment {
         mPersonalTabPagerAdapter.checkedItem(0);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(mPersonalTabPagerAdapter != null){
+            mPersonalTabPagerAdapter.stopLoad();
+        }
+    }
 
     @Override
     public void onDestroy() {

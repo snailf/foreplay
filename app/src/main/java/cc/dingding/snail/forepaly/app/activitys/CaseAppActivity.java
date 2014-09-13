@@ -164,12 +164,12 @@ public class CaseAppActivity extends BaseActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    mCustomDialog.cancel();
+//                    mCustomDialog.cancel();
                     mXListView.stopLoadMore();
                     mXListView.stopRefresh();
                 }
             };
-            mCustomDialog.show();
+//            mCustomDialog.show();
             postDataTask.execute();
         }else{
             mXListView.stopLoadMore();
