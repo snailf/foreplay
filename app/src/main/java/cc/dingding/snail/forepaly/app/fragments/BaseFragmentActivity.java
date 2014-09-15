@@ -11,6 +11,8 @@ package cc.dingding.snail.forepaly.app.fragments;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
+import com.umeng.analytics.MobclickAgent;
+
 import java.util.List;
 
 import cc.dingding.snail.forepaly.app.R;
@@ -33,5 +35,16 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements F
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.slide_left_in, R.anim.slide_right_out);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }

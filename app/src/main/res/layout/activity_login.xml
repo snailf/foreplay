@@ -22,7 +22,7 @@
             android:background="@drawable/login_input"
             android:text="豆瓣登录"
             android:gravity="center"
-            android:textColor="@color/login_text_color"
+            android:textColor="@color/login_text_color_xml"
             android:textSize="@dimen/login_button_font_size"
             />
         <TextView
@@ -33,7 +33,7 @@
             android:background="@drawable/login_input"
             android:text="微博登录"
             android:gravity="center"
-            android:textColor="@color/login_text_color"
+            android:textColor="@color/login_text_color_xml"
             android:textSize="@dimen/login_button_font_size"
             android:layout_below="@id/douban"
             />
@@ -45,7 +45,7 @@
             android:background="@drawable/login_input"
             android:text="QQ登录"
             android:gravity="center"
-            android:textColor="@color/login_text_color"
+            android:textColor="@color/login_text_color_xml"
             android:textSize="@dimen/login_button_font_size"
             android:layout_below="@id/weibo"
             />

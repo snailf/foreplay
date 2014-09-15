@@ -85,7 +85,7 @@ public class MainApplication extends Application {
         String commentsCounts = sp.getString("comments_counts", "0");
         this.gUser = new UserModel(oid, uid, nick, avatar, historyCounts, favoriteCounts, commentsCounts);
     }
-    private void storageUserCounts(String historyCounts, String favoriteCounts, String commentsCounts){
+    public void storageUserCounts(String historyCounts, String favoriteCounts, String commentsCounts){
         // 同步存储本地
         SharedPreferences sp = MainApplication.getInstance().getSharedPreferences(Config.PREFS_NAME, 0);
         sp.edit().putString("history_counts", historyCounts).commit();

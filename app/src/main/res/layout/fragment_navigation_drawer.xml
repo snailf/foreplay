@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#cccccccc"
+    android:background="#eeffffff"
     tools:context=".NavigationDrawerFragment" >
     <cc.dingding.snail.forepaly.app.views.StretchScrollView
         android:id="@+id/scrollview"

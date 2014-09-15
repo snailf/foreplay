@@ -151,7 +151,7 @@ public class DetailFooterController extends BaseController {
         }, 3000);
     }
     private void hide(){
-        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_xml);
+        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in_xml);
         mParentView.startAnimation(animation);
         new Handler().postDelayed(new Runnable() {
             @Override

@@ -14,8 +14,8 @@ public class ButtonModel {
     private int pressedBackgroundColor = 0xff000000;
 
     private String text = "音乐";
-    private int textSize = 22;
-    private int textGap = 1;
+    private int textSize = 20;
+    private int textGap = 0;
 
     public ButtonModel(int backgroundColor, String text){
         this.text = text;
@@ -44,6 +44,11 @@ public class ButtonModel {
 
     public int getTextSize() {
         return textSize;
+    }
+
+    public ButtonModel setTextSize(int size) {
+        textSize = size;
+        return this;
     }
 
     public int getTextGap() {

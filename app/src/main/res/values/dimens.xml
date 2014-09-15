@@ -129,4 +129,10 @@
     <!-- search -->
     <dimen name="search_margin_size">100dip</dimen>
     <dimen name="search_margin_top">30dip</dimen>
+    <dimen name="search_view_item_margin">10dip</dimen>
+    <dimen name="search_view_item_height">40dip</dimen>
+    <dimen name="search_view_item_width">60dip</dimen>
+    <dimen name="search_view_item_margin_top">10dip</dimen>
+    <dimen name="search_view_item_white_space">100dip</dimen>
+    <dimen name="search_view_item_text_size">16dip</dimen>
 </resources>

@@ -31,6 +31,7 @@ public class RandomView extends View {
     private int mMarginTop = 60;
     private int mScreenWidth = 400;
     private int mWhiteSpace = 150;
+    private int mTextSize = 22;
     private RandomButtonOnClickListener mRandomButtonOnClickListener = null;
     public void setRandomButtonOnClickListener(RandomButtonOnClickListener randomButtonOnClickListener){
         mRandomButtonOnClickListener = randomButtonOnClickListener;
@@ -58,6 +59,12 @@ public class RandomView extends View {
         mScreenWidth = DeviceUtils.deviceWidth(context);
         mWhiteSpace = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_margin_size);
         mMarginTop = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_margin_top);
+        mMargin = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_margin);
+        mHeight = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_height);
+        mWidth = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_width);
+        mMarginTop = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_margin_top);
+        mWhiteSpace = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_white_space);
+        mTextSize = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_text_size);
 //        mWhiteSpace = 180;
     }
 
@@ -70,11 +77,13 @@ public class RandomView extends View {
         //button 位置
         Random random =new Random();
         for(int i = 0; i < mLength; i++){
-            ButtonView  buttonView = new ButtonView(this, mButtonModels.get(i));
-            int width = mWidth + random.nextInt(mWidth);
+            ButtonModel buttonModel = mButtonModels.get(i).setTextSize(mTextSize);
+            ButtonView  buttonView = new ButtonView(this, buttonModel);
+            int minWidth = (buttonModel.getText().length() > 2) ? mWidth*3/2 : mWidth;
+            int width = minWidth + random.nextInt(mWidth);
             int available = mScreenWidth - mWhiteSpace - width - offset;
             if(available < 0){//不在一行内
-                if(available + width > mWidth){
+                if(available + width > minWidth){
                     width = available + width - mMargin;
                 }else {
                     line++;
@@ -86,7 +95,6 @@ public class RandomView extends View {
             offset += width + mMargin;
             int top = mMarginTop + line * (mHeight + mMargin) + random.nextInt(mMargin);
             int bottom = top + mHeight;
-
             buttonView.setRectF(new RectF(left, top, right, bottom));
             mButtonViews.add(buttonView);
         }

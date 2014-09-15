@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import cc.dingding.snail.forepaly.app.helper.bitmap.AsyncBitMapLoaderManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,6 +22,7 @@ import cc.dingding.snail.forepaly.app.config.JsonConfig;
 import cc.dingding.snail.forepaly.app.config.UrlConfig;
 import cc.dingding.snail.forepaly.app.controllers.IndexHeaderController;
 import cc.dingding.snail.forepaly.app.factorys.Json2List;
+import cc.dingding.snail.forepaly.app.helper.bitmap.AsyncBitMapLoaderManager;
 import cc.dingding.snail.forepaly.app.models.CaseModel;
 import cc.dingding.snail.forepaly.app.network.PostDataTask;
 import cc.dingding.snail.forepaly.app.network.PostParameter;
@@ -89,7 +89,7 @@ public class IndexFragment extends BaseFragment {
             Log.e("test", "loadmore");
             mCurrentPage++;
             loadData(false);
-            mCustomDialog.show();
+//            mCustomDialog.show();
         }
     };
 
@@ -175,7 +175,9 @@ public class IndexFragment extends BaseFragment {
                     mXListView.stopRefresh();
                 }
             };
-            mCustomDialog.show();
+            if(needClear){
+                mCustomDialog.show();
+            }
             AsyncBitMapLoaderManager.getInstance().clear();
             postDataTask.execute();
         }
@@ -202,7 +204,11 @@ public class IndexFragment extends BaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onPause() {
+        super.onPause();
+        if(mXListView != null){
+            mXListView.stopLoadMore();
+            mXListView.stopRefresh();
+        }
     }
 }
