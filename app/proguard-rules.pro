@@ -51,6 +51,6 @@
 -keep class im.yixin.sdk.api.YXMessage {*;}
 -keep class im.yixin.sdk.api.** implements im.yixin.sdk.api.YXMessage$YXMessageData{*;}
 
--keep public class cc.dingding.snail.forepaly.app.R$*{
-    public static final int *;
+-keepclassmembers class **.R$* {
+    public static <fields>;
 }
