@@ -23,7 +23,6 @@ public class RandomView extends View {
     private final String TAG = "RandomView";
     private List<ButtonModel> mButtonModels = null;
     private List<ButtonView> mButtonViews = null;
-
     private int mLength = 0;
     private int mMargin = 20;
     private int mHeight = 60;
@@ -36,7 +35,6 @@ public class RandomView extends View {
     public void setRandomButtonOnClickListener(RandomButtonOnClickListener randomButtonOnClickListener){
         mRandomButtonOnClickListener = randomButtonOnClickListener;
     }
-
     public RandomView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs);
@@ -48,7 +46,6 @@ public class RandomView extends View {
     public RandomView(Context context) {
         super(context);
     }
-
     /**
      * init 参数
      * @param context
@@ -57,17 +54,15 @@ public class RandomView extends View {
     private void init(Context context, AttributeSet attrs) {
         mButtonViews = new ArrayList<ButtonView>();
         mScreenWidth = DeviceUtils.deviceWidth(context);
-        mWhiteSpace = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_margin_size);
+//        mWhiteSpace = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_margin_size);
         mMarginTop = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_margin_top);
         mMargin = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_margin);
         mHeight = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_height);
         mWidth = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_width);
-        mMarginTop = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_margin_top);
+//        mMargin = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_margin_top);
         mWhiteSpace = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_white_space);
         mTextSize = (int) MainApplication.getInstance().getResources().getDimension(R.dimen.search_view_item_text_size);
-//        mWhiteSpace = 180;
     }
-
     public void setButtonModels(List<ButtonModel> buttonModels){
         mButtonViews.clear();
         mButtonModels = buttonModels;
@@ -108,7 +103,6 @@ public class RandomView extends View {
         }
         invalidate();
     }
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         for(int i = 0; i < mLength; i++){
@@ -122,6 +116,4 @@ public class RandomView extends View {
         }
         return super.onTouchEvent(event);
     }
-
-
 }
