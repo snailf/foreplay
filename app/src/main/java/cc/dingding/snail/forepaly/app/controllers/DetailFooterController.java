@@ -55,7 +55,7 @@ public class DetailFooterController extends BaseController {
     private int mCurrentPosition = 0;
     private CaseModel mCaseModel = null;
 
-    private boolean mIsAvailable = true;        //控制footer显示消失
+    private boolean mIsAvailable = false;        //控制footer显示消失
 
     private Bitmap mBitmap = null;
     // 首先在您的Activity中添加如下成员变量
@@ -74,6 +74,7 @@ public class DetailFooterController extends BaseController {
     @Override
     void init() {
         mParentView = mView.findViewById(R.id.footer_bar);
+        mParentView.setVisibility(View.INVISIBLE);
 
         mIvFavorite = mView.findViewById(R.id.favorite_rl);
         mIvDownload = mView.findViewById(R.id.download_rl);
